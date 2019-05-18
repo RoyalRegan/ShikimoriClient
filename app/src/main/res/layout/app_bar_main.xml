@@ -25,7 +25,7 @@
             android:id="@+id/fabFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_icon="@drawable/filter"
+            app:fab_icon="@drawable/filter_list"
             app:fab_size="mini"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/mediumPurple"/>
@@ -35,6 +35,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/search"
+            app:fab_size="mini"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_colorPressed="@color/mediumPurple"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/go_back"
             app:fab_size="mini"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/mediumPurple"/>

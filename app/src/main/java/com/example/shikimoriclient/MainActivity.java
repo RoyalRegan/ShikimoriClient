@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionsMenu fabMenu;
     private FloatingActionButton fabFilter;
     private FloatingActionButton fabSearch;
+    private FloatingActionButton fabBack;
     private MaterialViewPager materialViewPager;
     private ExpandableListView expandableListView;
     private CustomSearchDialog searchDialog;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         fabMenu = findViewById(R.id.fabMenu);
         fabFilter = findViewById(R.id.fabFilter);
         fabSearch = findViewById(R.id.fabSearch);
+        fabBack = findViewById(R.id.fabBack);
         materialViewPager = findViewById(R.id.materialViewPager);
         expandableListView = getLayoutInflater().inflate(R.layout.expandable_filter_list, null).findViewById(R.id.expandableListView);
         searchDialog = new CustomSearchDialog(this, "SearchDialog");
@@ -144,6 +146,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        fabBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { //Обработка нажатия кнопки поиска
+                closeFABMenu();
+              // обновление
+            }
+        });
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
@@ -167,8 +176,9 @@ public class MainActivity extends AppCompatActivity
 
     private void showFABMenu() {
         if (fabMenu.isExpanded()) {
-            fabFilter.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-            fabSearch.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+            fabBack.animate().translationY(-100);
+            fabFilter.animate().translationY(-55);
+            fabSearch.animate().translationY(-10);
         }
     }
 
@@ -176,6 +186,7 @@ public class MainActivity extends AppCompatActivity
         if (!fabMenu.isExpanded()) {
             fabFilter.animate().translationY(0);
             fabSearch.animate().translationY(0);
+            fabBack.animate().translationY(0);
         }
     }
 
