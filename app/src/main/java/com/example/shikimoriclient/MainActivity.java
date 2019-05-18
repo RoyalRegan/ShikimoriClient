@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
-import com.ajithvgiri.searchdialog.OnSearchItemSelected;
-import com.ajithvgiri.searchdialog.SearchListItem;
 import com.example.shikimoriclient.adapters.ExpandableListAdapter;
 import com.example.shikimoriclient.data.ExpandableListData;
 import com.example.shikimoriclient.fragments.CustomDialogFragment;
@@ -72,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         fabBack = findViewById(R.id.fabBack);
         materialViewPager = findViewById(R.id.materialViewPager);
         expandableListView = getLayoutInflater().inflate(R.layout.expandable_filter_list, null).findViewById(R.id.expandableListView);
-        searchDialog = new CustomSearchDialog(this, "SearchDialog");
+        searchDialog = new CustomSearchDialog(this, materialViewPager);
         setCompConfiguration();
         setListeners();
     }
@@ -108,70 +106,30 @@ public class MainActivity extends AppCompatActivity
         List<String> expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
         ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(this, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
-
-        List<SearchListItem> searchListItems = new ArrayList<>();
-        searchDialog.setSearchListItems(searchListItems);
-        searchDialog.setOnItemSelected(new OnSearchItemSelected() {
-            @Override
-            public void onClick(int position, SearchListItem searchListItem) {
-                //find by chosen name
-            }
-        });
     }
 
     private void setListeners() {
-        fabMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { //обработка нажатия начальноой кнопки
-                if (!fabMenu.isExpanded()) {
-                    showFABMenu();
-                } else {
-                    closeFABMenu();
-                }
+        fabMenu.setOnClickListener(view -> {
+            if (!fabMenu.isExpanded()) {
+                showFABMenu();
+            } else {
+                fabMenu.collapse();
             }
         });
-        fabSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { //Обработка нажатия кнопки поиска
-                closeFABMenu();
-                searchDialog.show();
-            }
+        fabSearch.setOnClickListener(view -> {
+            fabMenu.collapse();
+            searchDialog.show();
         });
 
-        fabFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { //Обработка нажатия кнопки фильтра
-                closeFABMenu();
-                showDialog(expandableListView);
-            }
+        fabFilter.setOnClickListener(view -> {
+            fabMenu.collapse();
+            showDialog(expandableListView);
         });
 
-        fabBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { //Обработка нажатия кнопки поиска
-                closeFABMenu();
-              // обновление
-            }
+        fabBack.setOnClickListener(view -> {
+            fabMenu.collapse();
         });
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-
-            }
-        });
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-
-            }
-        });
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                return false;
-            }
-        });
+        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> false);
     }
 
     private void showFABMenu() {
@@ -179,14 +137,6 @@ public class MainActivity extends AppCompatActivity
             fabBack.animate().translationY(-100);
             fabFilter.animate().translationY(-55);
             fabSearch.animate().translationY(-10);
-        }
-    }
-
-    private void closeFABMenu() {
-        if (!fabMenu.isExpanded()) {
-            fabFilter.animate().translationY(0);
-            fabSearch.animate().translationY(0);
-            fabBack.animate().translationY(0);
         }
     }
 

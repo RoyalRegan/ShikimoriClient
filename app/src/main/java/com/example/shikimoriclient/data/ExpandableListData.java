@@ -6,7 +6,7 @@ import java.util.List;
 
 //TODO: Add all categories
 public class ExpandableListData {
-    public static  HashMap<String, List<String>> getData() {
+    public static HashMap<String, List<String>> getData() {
         HashMap<String, List<String>> expandableListDetail = new HashMap<>();
 
         List<String> status = new ArrayList<>();

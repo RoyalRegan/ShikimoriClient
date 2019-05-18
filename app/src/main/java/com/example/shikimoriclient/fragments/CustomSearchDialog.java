@@ -3,105 +3,70 @@ package com.example.shikimoriclient.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.ajithvgiri.searchdialog.OnSearchItemSelected;
-import com.ajithvgiri.searchdialog.SearchListAdapter;
-import com.ajithvgiri.searchdialog.SearchListItem;
+import com.example.shikimoriclient.BackEnd.api.Animes;
+import com.example.shikimoriclient.BackEnd.api.Api;
+import com.example.shikimoriclient.BackEnd.dao.anime.AnimeSimple;
+import com.example.shikimoriclient.BackEnd.filter.AnimeFilter;
 import com.example.shikimoriclient.R;
+import com.example.shikimoriclient.adapters.CustomFragmentStatePagerAdapter;
+import com.github.florent37.materialviewpager.MaterialViewPager;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-//TODO: Change this 'amazing' class
-//TODO: store only 20 last request and save after close app
 public class CustomSearchDialog {
-
-    private static final String TAG = "SearchableDialog";
-    private List<SearchListItem> searchListItems;
+    private ArrayAdapter<String> searchListAdapter;
     private Activity activity;
-    private String dTitle;
-    private OnSearchItemSelected onSearchItemSelected;
     private AlertDialog alertDialog;
-    private int position;
-    private int style;
-    private SearchListItem searchListItem = null;
-
-    private SearchListAdapter searchListAdapter;
+    private MaterialViewPager materialViewPager;
     private ListView listView;
 
-    public CustomSearchDialog(Activity activity, String dialogTitle) {
+    public CustomSearchDialog(Activity activity, MaterialViewPager materialViewPager) {
         this.activity = activity;
-        this.dTitle = dialogTitle;
-
+        this.materialViewPager = materialViewPager;
     }
 
-    public CustomSearchDialog(Activity activity, List<SearchListItem> searchListItems, String dialogTitle) {
-        this.searchListItems = searchListItems;
-        this.activity = activity;
-        this.dTitle = dialogTitle;
-    }
-
-    public CustomSearchDialog(Activity activity, List<SearchListItem> searchListItems, String dialogTitle, int style) {
-        this.searchListItems = searchListItems;
-        this.activity = activity;
-        this.dTitle = dialogTitle;
-        this.style = style;
-    }
-
-    public void setOnItemSelected(OnSearchItemSelected searchItemSelected) {
-        this.onSearchItemSelected = searchItemSelected;
+    public void searchByString(String str) {
+        CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("search", str);
+        adapter.updateFilter(params);
+        adapter.notifyDataSetChanged();
     }
 
     //TODO: Show keyboard on create
     public void show() {
+
         final AlertDialog.Builder adb = new AlertDialog.Builder(activity);
         @SuppressLint("InflateParams") View view = activity.getLayoutInflater().inflate(R.layout.search_dialog_layout, null);
-        TextView rippleViewClose = view.findViewById(R.id.close);
-        TextView title = view.findViewById(R.id.spinerTitle);
-        title.setText(dTitle);
         listView = view.findViewById(R.id.list);
 
         final EditText searchBox = view.findViewById(R.id.searchBox);
-        searchListAdapter = new SearchListAdapter(activity, R.layout.items_view_layout, R.id.text1, searchListItems);
-        listView.setAdapter(searchListAdapter);
         adb.setView(view);
         alertDialog = adb.create();
-        alertDialog.getWindow().getAttributes().windowAnimations = style;
         alertDialog.setCancelable(true);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView t = view.findViewById(R.id.text1);
-                for (int j = 0; j < searchListItems.size(); j++) {
-                    if (t.getText().toString().equalsIgnoreCase(searchListItems.get(j).toString())) {
-                        position = j;
-                        searchListItem = searchListItems.get(position);
-                    }
-                }
-                try {
-                    onSearchItemSelected.onClick(position, searchListItem);
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
-                alertDialog.dismiss();
-            }
+        listView.setOnItemClickListener((adapterView, view1, id, l) -> {
+            searchByString(searchListAdapter.getItem(id));
+            alertDialog.dismiss();
         });
 
         searchBox.addTextChangedListener(new TextWatcher() {
@@ -112,65 +77,73 @@ public class CustomSearchDialog {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
+
+            private Timer timer = new Timer();
+            private final long DELAY = 250;
 
             @Override
             public void afterTextChanged(Editable editable) {
-                List<SearchListItem> filteredValues = new ArrayList<>();
-                for (int i = 0; i < searchListItems.size(); i++) {
-                    if (searchListItems.get(i) != null) {
-                        SearchListItem item = searchListItems.get(i);
-                        if (item.getTitle().toLowerCase().trim().contains(searchBox.getText().toString().toLowerCase().trim())) {
-                            filteredValues.add(item);
-                        }
-                    }
+                timer.cancel();
+                timer = new Timer();
+                timer.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                Api.initalize();
+                                List<String> findLists = new LinkedList<>();
+                                Animes api = Api.getAnimes();
+                                AnimeFilter filter = new AnimeFilter();
+                                String searchText = searchBox.getText().toString();
+                                if (!searchText.equals("")) {
+                                    filter.setParam("search", searchText);
+                                    Call<List<AnimeSimple>> call = api.getList(filter.getParams());
+                                    call.enqueue(new Callback<List<AnimeSimple>>() {
+                                        @RequiresApi(api = Build.VERSION_CODES.N)
+                                        @Override
+                                        public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
+                                            if (response.body() != null) {
+                                                if (searchText.matches("[A-z0-9]*")) {
+                                                    response.body().forEach(animeSimple -> findLists.add(animeSimple.getName()));
+                                                } else {
+                                                    if (searchText.matches("[А-яЁё0-9]*")) {
+                                                        response.body().forEach(animeSimple -> findLists.add(animeSimple.getRussian()));
+                                                    }
+                                                }
+                                                searchListAdapter = new ArrayAdapter<>(activity, R.layout.items_view_layout, R.id.text1, findLists);
+                                                listView.setAdapter(searchListAdapter);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<List<AnimeSimple>> call, Throwable t) {
+
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                        DELAY
+                );
+                if (searchBox.getText().toString().equals("")) {
+                    searchListAdapter = new ArrayAdapter<>(activity, R.layout.items_view_layout, R.id.text1, Collections.emptyList());
+                    listView.setAdapter(searchListAdapter);
                 }
-                searchListAdapter = new SearchListAdapter(activity, R.layout.items_view_layout, R.id.text1, filteredValues);
-                listView.setAdapter(searchListAdapter);
             }
         });
 
-        searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    searchListItems.add(0, new SearchListItem(searchListItems.size(), searchBox.getText().toString()));
-                    //find by typed name
+        searchBox.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (!searchBox.getText().toString().equals("")) {
+                    searchByString(searchBox.getText().toString());
                     alertDialog.dismiss();
                     handled = true;
                 }
-                return handled;
             }
+            return handled;
         });
-
-        rippleViewClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertDialog.show();
-    }
-
-    public void clear() {
-        this.searchListItems.clear();
-    }
-
-    public void refresh() {
-        searchListAdapter.notifyDataSetChanged();
-    }
-
-    public SearchListAdapter getAdapter() {
-        return searchListAdapter;
-    }
-
-    public SearchListItem getSearchListItem() {
-        return searchListItem;
-    }
-
-    public void setSearchListItems(List<SearchListItem> searchListItems) {
-        this.searchListItems = searchListItems;
     }
 }
