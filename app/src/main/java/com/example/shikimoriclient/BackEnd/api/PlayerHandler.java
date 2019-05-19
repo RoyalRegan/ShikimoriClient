@@ -50,19 +50,19 @@ public class PlayerHandler {
                         Pattern value = Pattern.compile(">.+<");
                         valueMathcer = value.matcher(kindMatcher.group());
                         if (valueMathcer.find()) {
-                            video.setType(valueMathcer.group().substring(1,valueMathcer.group().length()-1));
+                            video.setType(valueMathcer.group().substring(1, valueMathcer.group().length() - 1));
                         }
                     }
                     if (hostingMatcher.find()) {
                         Pattern value = Pattern.compile(">.+<");
-                        valueMathcer = value.matcher(hostingMatcher.group().substring(1,hostingMatcher.group().length()-1));
+                        valueMathcer = value.matcher(hostingMatcher.group().substring(1, hostingMatcher.group().length() - 1));
                         if (valueMathcer.find()) {
                             video.setHost(valueMathcer.group());
                         }
                     }
                     if (authorMatcher.find()) {
                         Pattern value = Pattern.compile(">.+<");
-                        valueMathcer = value.matcher(authorMatcher.group().substring(1,authorMatcher.group().length()-1));
+                        valueMathcer = value.matcher(authorMatcher.group().substring(1, authorMatcher.group().length() - 1));
                         if (valueMathcer.find()) {
                             video.setAuthor(valueMathcer.group());
                         }
