@@ -14,7 +14,6 @@ public class ExpandableListAnimeData {
         status.add("Анонсировано");
         status.add("Сейчас выходит");
         status.add("Вышедшее");
-        status.add("Недавно вышедшее");
 
         List<String> type = new ArrayList<>();
         type.add("TV Сериал длинный");
