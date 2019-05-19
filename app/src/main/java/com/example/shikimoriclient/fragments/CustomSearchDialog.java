@@ -104,10 +104,18 @@ public class CustomSearchDialog {
                                         public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
                                             if (response.body() != null) {
                                                 if (searchText.matches("[A-z0-9]*")) {
-                                                    response.body().forEach(animeSimple -> findLists.add(animeSimple.getName()));
+
+                                                    for (AnimeSimple anime:response.body())
+                                                    {
+                                                        findLists.add(anime.getName());
+                                                    }
                                                 } else {
                                                     if (searchText.matches("[А-яЁё0-9]*")) {
-                                                        response.body().forEach(animeSimple -> findLists.add(animeSimple.getRussian()));
+
+                                                        for (AnimeSimple anime:response.body())
+                                                        {
+                                                            findLists.add(anime.getName());
+                                                        }
                                                     }
                                                 }
                                                 searchListAdapter = new ArrayAdapter<>(activity, R.layout.items_view_layout, R.id.text1, findLists);
