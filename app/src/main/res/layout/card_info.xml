@@ -41,12 +41,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
-                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:layout_marginTop="0dp"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
-                android:textSize="@dimen/songs_count"
+                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:text="@string/titlerus"
                 android:textColor="@color/blue"
-                android:text="@string/titlerus"/>
+                android:textSize="@dimen/songs_count" />
 
         </RelativeLayout>
 
