@@ -10,13 +10,14 @@ import android.widget.TextView;
 
 import com.example.shikimoriclient.BackEnd.api.Api;
 import com.example.shikimoriclient.BackEnd.dao.Item;
-import com.example.shikimoriclient.BackEnd.dao.anime.AnimeSimple;
 import com.example.shikimoriclient.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+//TODO: OnCLickEvent
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
     private List<Item> itemsList;
@@ -86,7 +87,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         }
     }
 
-    public void addItems(List<AnimeSimple> titels) {
+    public <T extends Item> void addItems(List<T> titels) {
         itemsList.addAll(titels);
         notifyDataSetChanged();
     }

@@ -11,20 +11,27 @@ import android.widget.TextView;
 
 import com.example.shikimoriclient.R;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, List<String>> expandableListDetail;
+    private LinkedHashMap<String, List<String>> expandableListDetail;
+
 
     public ExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                 HashMap<String, List<String>> expandableListDetail) {
+                                 LinkedHashMap<String, List<String>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
+
     }
 
     @Override
@@ -101,4 +108,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 }
+
+
+
 

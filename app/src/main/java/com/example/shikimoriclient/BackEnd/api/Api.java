@@ -18,5 +18,13 @@ public class Api {
     public static Animes getAnimes() {
         return retrofit.create(Animes.class);
     }
+
+    public static Mangas getMangas() {
+        return retrofit.create(Mangas.class);
+    }
+
+    public static Ranobe getRanobe() {
+        return retrofit.create(Ranobe.class);
+    }
 }
 

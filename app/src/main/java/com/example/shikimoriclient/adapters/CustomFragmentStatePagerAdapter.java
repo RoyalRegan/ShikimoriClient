@@ -21,12 +21,13 @@ public class CustomFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int i) {
         if (filterParams != null) {
-            return RecyclerViewFragment.newInstance(filterParams);
+            return RecyclerViewFragment.newInstance(i, filterParams);
         } else {
-            return RecyclerViewFragment.newInstance();
+            return RecyclerViewFragment.newInstance(i);
         }
     }
 
+    //TODO: Update only current tab not all
     public int getItemPosition(Object object) {
         return POSITION_NONE;
     }

@@ -2,25 +2,27 @@ package com.example.shikimoriclient.BackEnd.filter;
 
 import java.util.HashMap;
 
-public class AnimeFilter {
+
+//TODO: Rewrite (?)
+public class SearchFilter {
     private HashMap<String, String> params;
 
-    public AnimeFilter() {
+    public SearchFilter() {
         params = new HashMap<>();
         setParam("limit", "20");
     }
 
-    public AnimeFilter(HashMap<String, String> params) {
+    public SearchFilter(HashMap<String, String> params) {
         this.params = params;
         setParam("limit", "20");
     }
 
-    public AnimeFilter setParam(String param, String value) {
+    public SearchFilter setParam(String param, String value) {
         params.put(param, value);
         return this;
     }
 
-    public AnimeFilter setCombineParam(String param, String value, boolean subtract) {
+    public SearchFilter setCombineParam(String param, String value, boolean subtract) {
         if (params.get(param) != null) {
             if (subtract) {
                 params.put(param, params.get(param) + ",!" + value);
@@ -37,7 +39,7 @@ public class AnimeFilter {
         return this;
     }
 
-    public AnimeFilter delParam(String param) {
+    public SearchFilter delParam(String param) {
         params.remove(param);
         return this;
     }
