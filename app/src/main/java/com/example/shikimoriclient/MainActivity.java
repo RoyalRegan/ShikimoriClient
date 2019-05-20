@@ -24,6 +24,7 @@ import android.widget.ExpandableListView;
 import com.example.shikimoriclient.adapters.CustomFragmentStatePagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.florent37.materialviewpager.MaterialViewPager;
+import com.github.florent37.materialviewpager.MaterialViewPagerHeader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
