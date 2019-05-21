@@ -29,8 +29,6 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHeader;
 //TODO: SearchableMangaData
 //TODO: SearchableRanobeData
 
-//TODO: Change Expandable xml's
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -100,6 +98,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setListeners() {
+
 
         fabMenu.setOnClickListener(view -> {
             if (!fabMenu.isExpanded()) {

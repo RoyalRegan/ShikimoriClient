@@ -1,6 +1,5 @@
 package com.example.shikimoriclient;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,14 +8,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class AnimeDetails extends AppCompatActivity
+public class MangaDetails extends AppCompatActivity
 {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_anime_details);
+        setContentView(R.layout.activity_manga_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -30,7 +29,7 @@ public class AnimeDetails extends AppCompatActivity
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_anime_details, menu);
+        getMenuInflater().inflate(R.menu.menu_manga_details, menu);
         return true;
     }
 
@@ -39,7 +38,7 @@ public class AnimeDetails extends AppCompatActivity
     {
         switch(item.getItemId())
         {
-            case R.id.watch_list:
+            case R.id.read_list:
                 //smth
                 return true;
             case R.id.throw_out:
@@ -51,10 +50,10 @@ public class AnimeDetails extends AppCompatActivity
             case R.id.plans:
                 //smth
                 return true;
-            case R.id.rewatch:
+            case R.id.reread:
                 //smth
                 return true;
-            case R.id.watch:
+            case R.id.read:
                 //smth
                 return true;
         }

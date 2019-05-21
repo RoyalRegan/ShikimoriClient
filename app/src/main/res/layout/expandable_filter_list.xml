@@ -6,17 +6,10 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
-
     <ExpandableListView
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="320dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -27,12 +20,11 @@
 
     <Button
         android:id="@+id/findButton"
-        android:layout_width="165dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="235dp"
+        android:layout_width="225dp"
+        android:layout_height="37dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
         android:background="@color/mediumPurple"
         android:text="@string/search"
         android:textColor="@android:color/black" />
-
-    </LinearLayout>
 </LinearLayout>

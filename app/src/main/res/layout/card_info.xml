@@ -9,7 +9,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="@dimen/card_margin"
-        card_view:cardCornerRadius="@dimen/card_album_radius">
+        card_view:cardElevation="0dp"
+        card_view:cardCornerRadius="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -18,11 +19,11 @@
             <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/album_cover_height"
+                android:layout_height="234dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/card_image"/>
+                android:src="@drawable/card_image" />
 
             <TextView
                 android:id="@+id/title"
@@ -30,18 +31,17 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/thumbnail"
                 android:paddingLeft="@dimen/album_title_padding"
-                android:paddingRight="@dimen/album_title_padding"
                 android:paddingTop="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:text="@string/title"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/album_title"
-                android:text="@string/title"/>
+                android:textSize="@dimen/album_title" />
 
             <TextView
                 android:id="@+id/title_rus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
-                android:layout_marginTop="0dp"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
                 android:paddingBottom="@dimen/songs_count_padding_bottom"

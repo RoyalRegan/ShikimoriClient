@@ -15,8 +15,16 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".RanobeDetails"
+            android:label="@string/title_activity_ranobe_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".MangaDetails"
+            android:label="@string/title_activity_manga_details"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".AnimeDetails"
-            android:label="@string/title_activity_anime_details"
+            android:label="Your Shikimori"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".AnimeDetails">
+    tools:context=".RanobeDetails">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -29,12 +29,12 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:menu="@menu/menu_anime_details" />
+                app:menu="@menu/menu_ranobe_details" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_anime_details" />
+    <include layout="@layout/content_ranobe_details_details" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
