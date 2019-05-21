@@ -5,6 +5,7 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+@Deprecated
 public class Player {
     private static final String baseURL = "https://play.shikimori.org/";
     private static Retrofit retrofit;

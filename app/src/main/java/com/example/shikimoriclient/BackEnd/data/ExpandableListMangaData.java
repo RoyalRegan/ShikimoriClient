@@ -20,7 +20,6 @@ public class ExpandableListMangaData {
         type.add("Манга ");
         type.add("Манхва");
         type.add("Маньхуа");
-        type.add("Новелла");
         type.add("Ваншот");
         type.add("Додзинси");
 

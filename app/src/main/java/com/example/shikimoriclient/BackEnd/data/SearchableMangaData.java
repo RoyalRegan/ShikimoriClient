@@ -18,7 +18,6 @@ public class SearchableMangaData implements Searchable {
         type.add("manga");
         type.add("manhwa");
         type.add("manhua");
-        type.add("novel");
         type.add("one_shot");
         type.add("doujin");
 

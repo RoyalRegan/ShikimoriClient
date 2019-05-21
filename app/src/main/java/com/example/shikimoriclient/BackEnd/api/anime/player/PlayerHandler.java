@@ -2,8 +2,6 @@ package com.example.shikimoriclient.BackEnd.api.anime.player;
 
 import android.content.Context;
 
-/*import com.example.shikimoriclient.Activitys.SeriaTypeChoice;
-import com.example.shikimoriclient.Activitys.VideoActivity;*/
 import com.example.shikimoriclient.BackEnd.dao.anime.AnimeVideo;
 
 import java.util.ArrayList;
@@ -15,11 +13,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+@Deprecated
 public class PlayerHandler {
 
     public static List<AnimeVideo> getVideos(String animeId, int seriaNumber, Context context) {
         Videos vid = Player.initalize().create(Videos.class);
-        Call<String> call = vid.getVideosByEpisodeNumber("https://play.shikimori.org/"+animeId+"/video_online/"+seriaNumber/*animeId, seriaNumber*/);
+        Call<String> call = vid.getVideosByEpisodeNumber("https://play.shikimori.org/" + animeId + "/video_online/" + seriaNumber);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -68,11 +68,7 @@ public class PlayerHandler {
                     }
                     animeVideos.add(video);
                 }
-               /* Intent intent = new Intent(context, SeriaTypeChoice.class);
-                SeriaTypeChoice.animeId = animeId;
-                SeriaTypeChoice.seriaCount = seriaNumber;
-                SeriaTypeChoice.animeVideos = animeVideos;
-                context.startActivity(intent);*/
+                //here start intent
             }
 
             @Override
@@ -85,7 +81,7 @@ public class PlayerHandler {
 
     public static String getPlayerLink(String animeId, int seriaNumber, String id, Context context) {
         Videos vid = Player.initalize().create(Videos.class);
-        Call<String> calll = vid.getPlayerUrlByVideoId("https://play.shikimori.org/"+animeId+"/video_online/"+seriaNumber+"/"+id/*animeId, seriaNumber, Integer.parseInt(id)*/);
+        Call<String> calll = vid.getPlayerUrlByVideoId("https://play.shikimori.org/" + animeId + "/video_online/" + seriaNumber + "/" + id);
         calll.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -93,11 +89,7 @@ public class PlayerHandler {
                 Matcher matcher = pattern.matcher(response.body());
                 if (matcher.find()) {
                     String playerUrl = "https:" + matcher.group().substring(matcher.group().indexOf('"') + 1, matcher.group().lastIndexOf('"'));
-                /*    VideoActivity.url = playerUrl;
-                    Intent intent = new Intent(context, VideoActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    VideoActivity.url = playerUrl;
-                    context.startActivity(intent);*/
+                    //here start intent
                 }
             }
 
