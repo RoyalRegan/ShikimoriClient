@@ -27,6 +27,7 @@ import android.support.v7.widget.Toolbar;
 import com.example.shikimoriclient.FrontEnd.adapters.CustomFragmentStatePagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.florent37.materialviewpager.MaterialViewPager;
+import com.github.florent37.materialviewpager.MaterialViewPagerHeader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
