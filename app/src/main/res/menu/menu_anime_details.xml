@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.shikimoriclient.AnimeDetails"
-    tools:showIn="@layout/activity_anime_details">
+    tools:context="com.example.shikimoriclient.DetailInfo"
+    tools:showIn="@layout/detail_info">
 
     <group android:checkableBehavior="single">
         <item

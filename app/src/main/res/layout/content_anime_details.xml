@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".AnimeDetails"
-    tools:showIn="@layout/activity_anime_details">
+    tools:showIn="@layout/detail_info">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -235,7 +234,7 @@
             android:background="@color/color_divider" />
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="31dp"
             android:layout_gravity="center_horizontal"
@@ -243,7 +242,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView21"
+            android:id="@+id/textView16"
             android:layout_width="match_parent"
             android:layout_height="1646dp"
             android:layout_gravity="center_horizontal"

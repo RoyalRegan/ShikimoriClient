@@ -23,7 +23,7 @@
             android:label="@string/title_activity_manga_details"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AnimeDetails"
+            android:name=".DetailInfo"
             android:label="Your Shikimori"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
