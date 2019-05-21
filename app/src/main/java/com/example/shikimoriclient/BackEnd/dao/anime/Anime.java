@@ -40,7 +40,8 @@ public class Anime extends AnimeSimple {
     private Studio[] studios;
     private Video[] videos;
     private Screenshot[] screenshots;
-    //TODO: Personal User Rate for anime
+
+
     //@SerializedName("user_rate")
     //private String userRate;
 }

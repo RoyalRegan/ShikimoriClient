@@ -1,6 +1,5 @@
 package com.example.shikimoriclient.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Build;
@@ -26,7 +25,6 @@ import com.example.shikimoriclient.adapters.CustomFragmentStatePagerAdapter;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
@@ -36,40 +34,52 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//TODO: Refactor like CustomFilterDialog
-
 public class CustomSearchDialog {
-    private ArrayAdapter<String> searchListAdapter;
     private Activity activity;
+    private View view;
     private AlertDialog alertDialog;
     private MaterialViewPager materialViewPager;
+    private EditText searchBox;
     private ListView listView;
-    private int tabId;
+    private ArrayAdapter<String> searchListAdapter;
+
+    private SearchFilter searchFilter;
 
     public CustomSearchDialog(Activity activity, MaterialViewPager materialViewPager) {
         this.activity = activity;
         this.materialViewPager = materialViewPager;
     }
 
+    public void setFilter(SearchFilter searchFilter) {
+        this.searchFilter = searchFilter;
+    }
+
+
     private void searchByString(String str) {
         CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
-        HashMap<String, String> params = new HashMap<>();
-        params.put("search", str);
-        adapter.updateFilter(params);
+        searchFilter.setParam("search", str);
+        adapter.setFilter(searchFilter.getParams());
         adapter.notifyDataSetChanged();
     }
 
     public void show() {
-
         final AlertDialog.Builder adb = new AlertDialog.Builder(activity);
-        @SuppressLint("InflateParams") View view = activity.getLayoutInflater().inflate(R.layout.search_dialog_layout, null);
-        listView = view.findViewById(R.id.list);
-
-        final EditText searchBox = view.findViewById(R.id.searchBox);
+        initializeComp();
         adb.setView(view);
         alertDialog = adb.create();
         alertDialog.setCancelable(true);
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        alertDialog.show();
+    }
 
+    private void initializeComp() {
+        view = activity.getLayoutInflater().inflate(R.layout.search_dialog_layout, null);
+        listView = view.findViewById(R.id.list);
+        searchBox = view.findViewById(R.id.searchBox);
+        setListeners();
+    }
+
+    private void setListeners() {
         listView.setOnItemClickListener((adapterView, view1, id, l) -> {
             searchByString(searchListAdapter.getItem(id));
             alertDialog.dismiss();
@@ -88,6 +98,8 @@ public class CustomSearchDialog {
             private Timer timer = new Timer();
             private final long DELAY = 100;
 
+
+            //TODO: Cases (?)
             @Override
             public void afterTextChanged(Editable editable) {
                 timer.cancel();
@@ -98,14 +110,13 @@ public class CustomSearchDialog {
                             public void run() {
                                 Api.initalize();
                                 List<String> findLists = new LinkedList<>();
-                                SearchFilter filter = new SearchFilter();
                                 String searchText = searchBox.getText().toString();
                                 if (!searchText.equals("")) {
-                                    switch (tabId) {
+                                    switch (materialViewPager.getViewPager().getCurrentItem()) {
                                         case 0: {
                                             Animes api = Api.getAnimes();
-                                            filter.setParam("search", searchText);
-                                            Call<List<AnimeSimple>> call = api.getList(filter.getParams());
+                                            searchFilter.setParam("search", searchText);
+                                            Call<List<AnimeSimple>> call = api.getList(searchFilter.getParams());
                                             call.enqueue(new Callback<List<AnimeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                                 @Override
@@ -136,8 +147,8 @@ public class CustomSearchDialog {
                                         }
                                         case 1: {
                                             Mangas api = Api.getMangas();
-                                            filter.setParam("search", searchText);
-                                            Call<List<MangaSimple>> call = api.getList(filter.getParams());
+                                            searchFilter.setParam("search", searchText);
+                                            Call<List<MangaSimple>> call = api.getList(searchFilter.getParams());
                                             call.enqueue(new Callback<List<MangaSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                                 @Override
@@ -168,8 +179,8 @@ public class CustomSearchDialog {
                                         }
                                         case 2: {
                                             Ranobe api = Api.getRanobe();
-                                            filter.setParam("search", searchText);
-                                            Call<List<RanobeSimple>> call = api.getList(filter.getParams());
+                                            searchFilter.setParam("search", searchText);
+                                            Call<List<RanobeSimple>> call = api.getList(searchFilter.getParams());
                                             call.enqueue(new Callback<List<RanobeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                                 @Override
@@ -222,11 +233,5 @@ public class CustomSearchDialog {
             }
             return handled;
         });
-        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        alertDialog.show();
-    }
-
-    public void setTabId(int tabId) {
-        this.tabId = tabId;
     }
 }

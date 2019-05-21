@@ -1,20 +1,40 @@
 package com.example.shikimoriclient.BackEnd.filter;
 
+import com.example.shikimoriclient.data.Searchable;
+
 import java.util.HashMap;
 
 
-//TODO: Rewrite (?)
 public class SearchFilter {
     private HashMap<String, String> params;
+    private FilterAdapter filterAdapter;
+    private Searchable searchFilterData;
+
+    public SearchFilter(FilterAdapter filterAdapter, Searchable searchFilterData) {
+        params = new HashMap<>();
+        this.filterAdapter = filterAdapter;
+        this.searchFilterData = searchFilterData;
+    }
 
     public SearchFilter() {
         params = new HashMap<>();
-        setParam("limit", "20");
     }
 
     public SearchFilter(HashMap<String, String> params) {
         this.params = params;
-        setParam("limit", "20");
+    }
+
+    public void buildParamsByFilter() {
+        for (FilterElement counter : filterAdapter.getCounter().keySet()) {
+            if (filterAdapter.getCounter().get(new FilterElement(counter.getGroupId(), counter.getChildId())) == 1) {
+                this.setCombineParam(searchFilterData.getParamsNameByColumnId(counter.getGroupId()),
+                        searchFilterData.getParamsValueByColumnId().get(counter.getGroupId()).get(counter.getChildId()), false);
+            }
+            if (filterAdapter.getCounter().get(new FilterElement(counter.getGroupId(), counter.getChildId())) == 2) {
+                this.setCombineParam(searchFilterData.getParamsNameByColumnId(counter.getGroupId()),
+                        searchFilterData.getParamsValueByColumnId().get(counter.getGroupId()).get(counter.getChildId()), true);
+            }
+        }
     }
 
     public SearchFilter setParam(String param, String value) {
@@ -39,12 +59,29 @@ public class SearchFilter {
         return this;
     }
 
-    public SearchFilter delParam(String param) {
-        params.remove(param);
-        return this;
+    public HashMap<String, String> getParams() {
+        if (filterAdapter != null) {
+            String searchStr = params.get("search");
+            params.clear();
+            if (searchStr != null) {
+                params.put("search", searchStr);
+            }
+            buildParamsByFilter();
+        }
+        params.put("limit", "20");
+        return params;
     }
 
-    public HashMap<String, String> getParams() {
-        return params;
+    public FilterAdapter getFilterAdapter() {
+        return filterAdapter;
+    }
+
+    public void rest() {
+        filterAdapter.reset();
+        params.clear();
+    }
+
+    public Searchable getSearchFilterData() {
+        return searchFilterData;
     }
 }

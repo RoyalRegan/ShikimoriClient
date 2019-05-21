@@ -3,6 +3,15 @@ package com.example.shikimoriclient;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+
+import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
+import com.example.shikimoriclient.BackEnd.filter.FilterAdapter;
+import com.example.shikimoriclient.data.ExpandableListAnimeData;
+import com.example.shikimoriclient.data.ExpandableListRanobeData;
+import com.example.shikimoriclient.data.ExpandableListMangaData;
+import com.example.shikimoriclient.data.SearchableAnimeData;
+import com.example.shikimoriclient.data.SearchableMangaData;
+import com.example.shikimoriclient.data.SearchableRanobeData;
 import com.example.shikimoriclient.fragments.CustomSearchDialog;
 import com.example.shikimoriclient.fragments.CustomFilterDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -19,16 +28,15 @@ import com.example.shikimoriclient.adapters.CustomFragmentStatePagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+
 //TODO: Fix tab background
 //TODO: Fix tab swiping
 //TODO: Fix rotate screen
-
-//TODO: ExpandableListMangaData
-//TODO: ExpandableListRanobeData
-//TODO: SearchableMangaData
-//TODO: SearchableRanobeData
-
-//TODO: Change Expandable xml's
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,6 +52,12 @@ public class MainActivity extends AppCompatActivity
     private CustomSearchDialog searchDialog;
     private CustomFilterDialog customFilterDialog;
 
+    private SearchFilter animeFilter;
+
+    private SearchFilter mangaFilter;
+
+    private SearchFilter ranobeFilter;
+
     private static final int TAB_COUNT = 3;
 
     @Override
@@ -52,7 +66,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         initializeComp();
         setLayout();
-        fillComp();
     }
 
 
@@ -69,6 +82,7 @@ public class MainActivity extends AppCompatActivity
         searchDialog = new CustomSearchDialog(this, materialViewPager);
         customFilterDialog = new CustomFilterDialog(this, materialViewPager);
         setCompConfiguration();
+        fillComp();
         setListeners();
     }
 
@@ -82,7 +96,33 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void fillComp() {
+        LinkedHashMap<String, List<String>> expandableListDetail = ExpandableListAnimeData.getData();
+        List<String> expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
+        List<Integer> childrensCount = new LinkedList<>();
+        for (int i = 0; i < expandableListTitle.size(); i++) {
+            childrensCount.add(expandableListDetail.get(expandableListTitle.get(i)).size());
+        }
 
+        FilterAdapter animeFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Arrays.asList(3, 4));
+        animeFilter = new SearchFilter(animeFilterAdapter, new SearchableAnimeData());
+
+        expandableListDetail = ExpandableListMangaData.getData();
+        expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
+        childrensCount = new LinkedList<>();
+        for (int i = 0; i < expandableListTitle.size(); i++) {
+            childrensCount.add(expandableListDetail.get(expandableListTitle.get(i)).size());
+        }
+        FilterAdapter mangaFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Arrays.asList(3, 4));
+        mangaFilter = new SearchFilter(mangaFilterAdapter, new SearchableMangaData());
+
+        expandableListDetail = ExpandableListRanobeData.getData();
+        expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
+        childrensCount = new LinkedList<>();
+        for (int i = 0; i < expandableListTitle.size(); i++) {
+            childrensCount.add(expandableListDetail.get(expandableListTitle.get(i)).size());
+        }
+        FilterAdapter ranobeFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Arrays.asList(2, 3));
+        ranobeFilter = new SearchFilter(ranobeFilterAdapter, new SearchableRanobeData());
     }
 
     private void setCompConfiguration() {
@@ -99,7 +139,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setListeners() {
-
         fabMenu.setOnClickListener(view -> {
             if (!fabMenu.isExpanded()) {
                 showFABMenu();
@@ -109,18 +148,68 @@ public class MainActivity extends AppCompatActivity
         });
 
         fabSearch.setOnClickListener(view -> {
-            searchDialog.setTabId(materialViewPager.getViewPager().getCurrentItem());
+            switch (materialViewPager.getViewPager().getCurrentItem()) {
+                case 0: {
+                    searchDialog.setFilter(animeFilter);
+                    break;
+                }
+                case 1: {
+                    searchDialog.setFilter(mangaFilter);
+                    break;
+                }
+                case 2: {
+                    searchDialog.setFilter(ranobeFilter);
+                    break;
+                }
+            }
             fabMenu.collapse();
             searchDialog.show();
         });
 
         fabFilter.setOnClickListener(view -> {
-            customFilterDialog.setTabId(materialViewPager.getViewPager().getCurrentItem());
+            switch (materialViewPager.getViewPager().getCurrentItem()) {
+                case 0: {
+                    customFilterDialog.setFilter(animeFilter);
+                    break;
+                }
+                case 1: {
+                    customFilterDialog.setFilter(mangaFilter);
+                    break;
+                }
+                case 2: {
+                    customFilterDialog.setFilter(ranobeFilter);
+                    break;
+                }
+            }
             fabMenu.collapse();
             customFilterDialog.show();
         });
-
-        fabBack.setOnClickListener(view -> fabMenu.collapse());
+        fabBack.setOnClickListener(view -> {
+            switch (materialViewPager.getViewPager().getCurrentItem()) {
+                case 0: {
+                    animeFilter.rest();
+                    CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
+                    adapter.setFilter(animeFilter.getParams());
+                    adapter.notifyDataSetChanged();
+                    break;
+                }
+                case 1: {
+                    mangaFilter.rest();
+                    CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
+                    adapter.setFilter(mangaFilter.getParams());
+                    adapter.notifyDataSetChanged();
+                    break;
+                }
+                case 2: {
+                    ranobeFilter.rest();
+                    CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
+                    adapter.setFilter(ranobeFilter.getParams());
+                    adapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+            fabMenu.collapse();
+        });
     }
 
     private void showFABMenu() {
@@ -140,10 +229,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
+        /*int id = item.getItemId();
 
         if (id == R.id.nav_list) {
 
@@ -154,7 +242,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_notifications) {
 
         }
-        drawerLayout.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);*/
         return true;
     }
 }

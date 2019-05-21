@@ -52,7 +52,7 @@ public class CustomFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public void updateFilter(HashMap<String, String> filterParams) {
+    public void setFilter(HashMap<String, String> filterParams) {
         this.filterParams = filterParams;
     }
 

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-//TODO: OnCLickEvent
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
     private List<Item> itemsList;

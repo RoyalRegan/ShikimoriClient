@@ -1,5 +1,6 @@
 package com.example.shikimoriclient.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.View;
@@ -10,35 +11,27 @@ import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
 import com.example.shikimoriclient.adapters.CustomFragmentStatePagerAdapter;
 import com.example.shikimoriclient.adapters.ExpandableListAdapter;
-import com.example.shikimoriclient.adapters.ExpandableTypedCounter;
 import com.example.shikimoriclient.data.ExpandableListAnimeData;
-import com.example.shikimoriclient.data.Searchable;
-import com.example.shikimoriclient.data.SearchableAnimeData;
+import com.example.shikimoriclient.data.ExpandableListRanobeData;
+import com.example.shikimoriclient.data.ExpandableListMangaData;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 public class CustomFilterDialog {
     private Activity activity;
     private View view;
     private AlertDialog alertDialog;
+    private MaterialViewPager materialViewPager;
     private ExpandableListView expandableListView;
     private Button findButton;
-    private ExpandableListAdapter expandableListAdapter;
-    private ExpandableTypedCounter filterCounter;
-    private MaterialViewPager materialViewPager;
 
+    private SearchFilter searchFilter;
     private LinkedHashMap<String, List<String>> expandableListDetail;
     private List<String> expandableListTitle;
-
-    private Searchable searchFilterData;
-
-    private int tabId;
 
     public CustomFilterDialog(Activity activity, MaterialViewPager materialViewPager) {
         this.activity = activity;
@@ -47,7 +40,7 @@ public class CustomFilterDialog {
 
     private void findByParams(HashMap<String, String> params) {
         CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
-        adapter.updateFilter(params);
+        adapter.setFilter(params);
         adapter.notifyDataSetChanged();
         alertDialog.dismiss();
     }
@@ -69,63 +62,41 @@ public class CustomFilterDialog {
         setListeners();
     }
 
+    private void setCompConfiguration() {
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(activity, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+    }
 
-    //TODO: Save filter (?)
-    private void setFilterCounter() {
-        switch (tabId) {
+    @SuppressLint("SetTextI18n")
+    private void setListeners() {
+        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
+            //TODO: Change + -
+            searchFilter.getFilterAdapter().changeCondition(groupPosition, childPosition);
+            return false;
+        });
+        findButton.setOnClickListener(v -> {
+            findByParams(searchFilter.getParams());
+        });
+    }
+
+    public void setFilter(SearchFilter searchFilter) {
+        switch (materialViewPager.getViewPager().getCurrentItem()) {
             case 0: {
-                searchFilterData = new SearchableAnimeData();
                 expandableListDetail = ExpandableListAnimeData.getData();
                 expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
                 break;
             }
             case 1: {
-                //manga
-              /*  expandableListDetail = ExpandableListAnimeData.getParamsValueByColumnId();
-                expandableListTitle = new ArrayList<>(expandableListDetail.keySet());*/
+                expandableListDetail = ExpandableListMangaData.getData();
+                expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
                 break;
             }
             case 2: {
-                //ranobe
-               /* expandableListDetail = ExpandableListAnimeData.getParamsValueByColumnId();
-                expandableListTitle = new ArrayList<>(expandableListDetail.keySet());*/
+                expandableListDetail = ExpandableListRanobeData.getData();
+                expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
                 break;
             }
         }
-        List<Integer> childrensCount = new LinkedList<>();
-        for (int i = 0; i < expandableListTitle.size(); i++) {
-            childrensCount.add(expandableListDetail.get(expandableListTitle.get(i)).size());
-        }
-        filterCounter = new ExpandableTypedCounter(expandableListTitle.size(), childrensCount, Arrays.asList(3, 4));
-    }
-
-    private void setCompConfiguration() {
-        setFilterCounter();
-        expandableListAdapter = new ExpandableListAdapter(activity, expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
-    }
-
-    private void setListeners() {
-        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-            filterCounter.incCounter(groupPosition, childPosition);
-            return false;
-
-        });
-        findButton.setOnClickListener(v -> {
-            SearchFilter searchFilter = new SearchFilter();
-            for (ExpandableTypedCounter counter : filterCounter.getCounter().keySet()) {
-                if (filterCounter.getCounter().get(new ExpandableTypedCounter(counter.getGroupId(), counter.getChildId())) == 1) {
-                    searchFilter.setCombineParam(searchFilterData.getParamsNameByColumnId(counter.getGroupId()), searchFilterData.getParamsValueByColumnId().get(counter.getGroupId()).get(counter.getChildId()), false);
-                }
-                if (filterCounter.getCounter().get(new ExpandableTypedCounter(counter.getGroupId(), counter.getChildId())) == 2) {
-                    searchFilter.setCombineParam(searchFilterData.getParamsNameByColumnId(counter.getGroupId()), searchFilterData.getParamsValueByColumnId().get(counter.getGroupId()).get(counter.getChildId()), true);
-                }
-            }
-            findByParams(searchFilter.getParams());
-        });
-    }
-
-    public void setTabId(int tabId) {
-        this.tabId = tabId;
+        this.searchFilter = searchFilter;
     }
 }
