@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.BackEnd.api;
+package com.example.shikimoriclient.BackEnd.api.ranobe;
 
 import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 

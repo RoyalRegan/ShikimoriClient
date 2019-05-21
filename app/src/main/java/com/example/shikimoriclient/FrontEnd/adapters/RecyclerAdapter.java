@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.adapters;
+package com.example.shikimoriclient.FrontEnd.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

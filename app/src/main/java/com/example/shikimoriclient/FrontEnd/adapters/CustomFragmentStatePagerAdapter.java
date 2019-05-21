@@ -1,17 +1,19 @@
-package com.example.shikimoriclient.adapters;
+package com.example.shikimoriclient.FrontEnd.adapters;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.shikimoriclient.fragments.RecyclerViewFragment;
-
-import java.util.HashMap;
+import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
+import com.example.shikimoriclient.FrontEnd.fragments.RecyclerViewFragment;
+import com.example.shikimoriclient.FrontEnd.fragments.Updatable;
 
 public class CustomFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     private final int TAB_COUNT;
-    private HashMap<String, String> filterParams;
+    private SearchFilter searchFilter;
+    private int selectedTab;
+    private int updateStatementTab = 0;
 
     public CustomFragmentStatePagerAdapter(FragmentManager fm, int tabCount) {
         super(fm);
@@ -20,16 +22,26 @@ public class CustomFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        if (filterParams != null) {
-            return RecyclerViewFragment.newInstance(i, filterParams);
-        } else {
-            return RecyclerViewFragment.newInstance(i);
-        }
+        return RecyclerViewFragment.newInstance(i);
     }
 
-    //TODO: Update only current tab not all
     public int getItemPosition(Object object) {
-        return POSITION_NONE;
+        Updatable view = (Updatable) object;
+        if (view != null) {
+            if (updateStatementTab == selectedTab) {
+                view.update(searchFilter);
+            }
+            updateStatementTab++;
+            if (updateStatementTab % 3 == 0) {
+                updateStatementTab = 0;
+            }
+        }
+        return super.getItemPosition(object);
+    }
+
+    public void updateTab(int selectedTab) {
+        this.selectedTab = selectedTab;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -52,8 +64,8 @@ public class CustomFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public void setFilter(HashMap<String, String> filterParams) {
-        this.filterParams = filterParams;
+    public void setFilter(SearchFilter searchFilter) {
+        this.searchFilter = searchFilter;
     }
 
     enum Titles {

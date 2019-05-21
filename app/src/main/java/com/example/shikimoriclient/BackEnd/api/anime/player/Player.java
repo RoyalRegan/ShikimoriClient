@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.BackEnd.api;
+package com.example.shikimoriclient.BackEnd.api.anime.player;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

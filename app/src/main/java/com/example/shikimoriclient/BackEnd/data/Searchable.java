@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.data;
+package com.example.shikimoriclient.BackEnd.data;
 
 import java.util.LinkedHashMap;
 import java.util.List;

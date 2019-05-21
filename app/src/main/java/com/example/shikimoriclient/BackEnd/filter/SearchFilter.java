@@ -1,6 +1,6 @@
 package com.example.shikimoriclient.BackEnd.filter;
 
-import com.example.shikimoriclient.data.Searchable;
+import com.example.shikimoriclient.BackEnd.data.Searchable;
 
 import java.util.HashMap;
 
@@ -18,10 +18,6 @@ public class SearchFilter {
 
     public SearchFilter() {
         params = new HashMap<>();
-    }
-
-    public SearchFilter(HashMap<String, String> params) {
-        this.params = params;
     }
 
     public void buildParamsByFilter() {

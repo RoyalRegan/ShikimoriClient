@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.BackEnd.api;
+package com.example.shikimoriclient.BackEnd.api.anime;
 
 import com.example.shikimoriclient.BackEnd.dao.anime.Anime;
 import com.example.shikimoriclient.BackEnd.dao.anime.AnimeSimple;

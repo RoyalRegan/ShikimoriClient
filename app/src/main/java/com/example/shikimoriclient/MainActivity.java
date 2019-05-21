@@ -6,14 +6,14 @@ import android.support.v7.app.ActionBar;
 
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.BackEnd.filter.FilterAdapter;
-import com.example.shikimoriclient.data.ExpandableListAnimeData;
-import com.example.shikimoriclient.data.ExpandableListRanobeData;
-import com.example.shikimoriclient.data.ExpandableListMangaData;
-import com.example.shikimoriclient.data.SearchableAnimeData;
-import com.example.shikimoriclient.data.SearchableMangaData;
-import com.example.shikimoriclient.data.SearchableRanobeData;
-import com.example.shikimoriclient.fragments.CustomSearchDialog;
-import com.example.shikimoriclient.fragments.CustomFilterDialog;
+import com.example.shikimoriclient.BackEnd.data.ExpandableListAnimeData;
+import com.example.shikimoriclient.BackEnd.data.ExpandableListRanobeData;
+import com.example.shikimoriclient.BackEnd.data.ExpandableListMangaData;
+import com.example.shikimoriclient.BackEnd.data.SearchableAnimeData;
+import com.example.shikimoriclient.BackEnd.data.SearchableMangaData;
+import com.example.shikimoriclient.BackEnd.data.SearchableRanobeData;
+import com.example.shikimoriclient.FrontEnd.dialogs.SearchDialog;
+import com.example.shikimoriclient.FrontEnd.dialogs.FilterDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,7 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.example.shikimoriclient.adapters.CustomFragmentStatePagerAdapter;
+import com.example.shikimoriclient.FrontEnd.adapters.CustomFragmentStatePagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 
@@ -34,9 +34,14 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
+
 //TODO: Fix tab background
 //TODO: Fix tab swiping
 //TODO: Fix rotate screen
+//TODO: Status bar on RecyclerViews(on self and on imageViews)
+//TODO: Status bar in search list while result updating
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,8 +54,8 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton fabSearch;
     private FloatingActionButton fabBack;
     private MaterialViewPager materialViewPager;
-    private CustomSearchDialog searchDialog;
-    private CustomFilterDialog customFilterDialog;
+    private SearchDialog searchDialog;
+    private FilterDialog filterDialog;
 
     private SearchFilter animeFilter;
 
@@ -79,8 +84,8 @@ public class MainActivity extends AppCompatActivity
         fabSearch = findViewById(R.id.fabSearch);
         fabBack = findViewById(R.id.fabBack);
         materialViewPager = findViewById(R.id.materialViewPager);
-        searchDialog = new CustomSearchDialog(this, materialViewPager);
-        customFilterDialog = new CustomFilterDialog(this, materialViewPager);
+        searchDialog = new SearchDialog(this, materialViewPager);
+        filterDialog = new FilterDialog(this, materialViewPager);
         setCompConfiguration();
         fillComp();
         setListeners();
@@ -169,42 +174,36 @@ public class MainActivity extends AppCompatActivity
         fabFilter.setOnClickListener(view -> {
             switch (materialViewPager.getViewPager().getCurrentItem()) {
                 case 0: {
-                    customFilterDialog.setFilter(animeFilter);
+                    filterDialog.setFilter(animeFilter);
                     break;
                 }
                 case 1: {
-                    customFilterDialog.setFilter(mangaFilter);
+                    filterDialog.setFilter(mangaFilter);
                     break;
                 }
                 case 2: {
-                    customFilterDialog.setFilter(ranobeFilter);
+                    filterDialog.setFilter(ranobeFilter);
                     break;
                 }
             }
             fabMenu.collapse();
-            customFilterDialog.show();
+            filterDialog.show();
         });
         fabBack.setOnClickListener(view -> {
             switch (materialViewPager.getViewPager().getCurrentItem()) {
                 case 0: {
                     animeFilter.rest();
-                    CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
-                    adapter.setFilter(animeFilter.getParams());
-                    adapter.notifyDataSetChanged();
+                    updateRecycleView(materialViewPager, animeFilter);
                     break;
                 }
                 case 1: {
                     mangaFilter.rest();
-                    CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
-                    adapter.setFilter(mangaFilter.getParams());
-                    adapter.notifyDataSetChanged();
+                    updateRecycleView(materialViewPager, mangaFilter);
                     break;
                 }
                 case 2: {
                     ranobeFilter.rest();
-                    CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
-                    adapter.setFilter(ranobeFilter.getParams());
-                    adapter.notifyDataSetChanged();
+                    updateRecycleView(materialViewPager, ranobeFilter);
                     break;
                 }
             }

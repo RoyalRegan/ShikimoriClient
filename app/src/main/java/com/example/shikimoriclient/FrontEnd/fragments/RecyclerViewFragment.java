@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.fragments;
+package com.example.shikimoriclient.FrontEnd.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,39 +10,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.shikimoriclient.BackEnd.api.Animes;
+import com.example.shikimoriclient.BackEnd.api.anime.Animes;
 import com.example.shikimoriclient.BackEnd.api.Api;
-import com.example.shikimoriclient.BackEnd.api.Mangas;
-import com.example.shikimoriclient.BackEnd.api.Ranobe;
+import com.example.shikimoriclient.BackEnd.api.manga.Mangas;
+import com.example.shikimoriclient.BackEnd.api.ranobe.Ranobe;
 import com.example.shikimoriclient.BackEnd.dao.anime.AnimeSimple;
 import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
 import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
-import com.example.shikimoriclient.adapters.RecyclerAdapter;
+import com.example.shikimoriclient.FrontEnd.adapters.RecyclerAdapter;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//TODO: Think about cases
-public class RecyclerViewFragment extends android.support.v4.app.Fragment {
+public class RecyclerViewFragment extends android.support.v4.app.Fragment implements Updatable {
 
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
     private LinearLayoutManager layoutManager;
-    private SearchFilter animeFilter;
-    private SearchFilter mangaFilter;
-    private SearchFilter ranobeFilter;
+    private SearchFilter filter;
 
     private static Bundle instanceBundle = new Bundle();
-
-    private Bundle bundle;
 
     private int pageNumber = 1;
     private boolean isLoading = true;
@@ -53,95 +47,41 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment {
     private int viewThreshold = 20;
 
     //TODO: Remember scroll position
-
-    // .___.
-    // |   |
-    // |   |
-    // |___|
-    // |   |
-    // |   |
-    //  \ /
-    //   |
-    //   |
-    //   |
-    //   i
-    public static android.support.v4.app.Fragment newInstance(int id, HashMap<String, String> filterParams) {
-        switch (id) {
-            case 0: {
-                instanceBundle.putSerializable("AnimeFilter", filterParams);
-                instanceBundle.putString("Type", "Anime");
-                break;
-            }
-            case 1: {
-                instanceBundle.putSerializable("MangaFilter", filterParams);
-                instanceBundle.putString("Type", "Manga");
-                break;
-            }
-            case 2: {
-                instanceBundle.putSerializable("RanobeFilter", filterParams);
-                instanceBundle.putString("Type", "Ranobe");
-                break;
-            }
-        }
-        return new RecyclerViewFragment();
-    }
-
     public static android.support.v4.app.Fragment newInstance(int id) {
         switch (id) {
             case 0: {
-                instanceBundle.putString("Type", "Anime");
+                instanceBundle.putInt("Type", 0);
                 break;
             }
             case 1: {
-                instanceBundle.putString("Type", "Manga");
+                instanceBundle.putInt("Type", 1);
                 break;
             }
             case 2: {
-                instanceBundle.putString("Type", "Ranobe");
+                instanceBundle.putInt("Type", 2);
                 break;
             }
         }
         return new RecyclerViewFragment();
     }
-    //   i
-    //   |
-    //   |
-    //   |
-    //  / \
-    // |   |
-    // |   |
-    // |___|
-    // |   |
-    // |   |
-    // |   |
-    // .___.
-
 
     public RecyclerViewFragment() {
-        bundle = new Bundle();
-        switch (instanceBundle.getString("Type")) {
-            case "Anime": {
-                bundle.putString("Type", "Anime");
+        Bundle bundle = new Bundle();
+        switch (instanceBundle.getInt("Type")) {
+            case 0: {
+                bundle.putInt("Type", 0);
                 break;
             }
-            case "Manga": {
-                bundle.putString("Type", "Manga");
+            case 1: {
+                bundle.putInt("Type", 1);
                 break;
             }
-            case "Ranobe": {
-                bundle.putString("Type", "Ranobe");
+            case 2: {
+                bundle.putInt("Type", 2);
                 break;
             }
         }
-        if (instanceBundle.getSerializable("AnimeFilter") != null) {
-            bundle.putSerializable("AnimeFilter", instanceBundle.getSerializable("AnimeFilter"));
-        }
-        if (instanceBundle.getSerializable("MangaFilter") != null) {
-            bundle.putSerializable("MangaFilter", instanceBundle.getSerializable("MangaFilter"));
-        }
-        if (instanceBundle.getSerializable("RanobeFilter") != null) {
-            bundle.putSerializable("RanobeFilter", instanceBundle.getSerializable("RanobeFilter"));
-        }
+        this.setArguments(bundle);
     }
 
     @Override
@@ -160,45 +100,17 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment {
     private void initializeComp(View view) {
         recyclerView = (view.findViewById(R.id.recyclerView));
         layoutManager = new GridLayoutManager(getContext(), 2);
-        switch (bundle.getString("Type")) {
-            case "Anime": {
-                if (bundle.getSerializable("AnimeFilter") == null) {
-                    animeFilter = new SearchFilter();
-                } else {
-                    //noinspection MoveFieldAssignmentToInitializer,unchecked
-                    animeFilter = new SearchFilter((HashMap<String, String>) bundle.getSerializable("AnimeFilter"));
-                }
-                break;
-            }
-            case "Manga": {
-                if (bundle.getSerializable("MangaFilter") == null) {
-                    mangaFilter = new SearchFilter();
-                } else {
-                    //noinspection MoveFieldAssignmentToInitializer,unchecked
-                    mangaFilter = new SearchFilter((HashMap<String, String>) bundle.getSerializable("MangaFilter"));
-                }
-                break;
-            }
-            case "Ranobe": {
-                if (bundle.getSerializable("RanobeFilter") == null) {
-                    ranobeFilter = new SearchFilter();
-                } else {
-                    //noinspection MoveFieldAssignmentToInitializer,unchecked
-                    ranobeFilter = new SearchFilter((HashMap<String, String>) bundle.getSerializable("RanobeFilter"));
-                }
-                break;
-            }
-        }
+        filter = new SearchFilter();
         Api.initalize();
         setCompConfiguration();
         setListeners();
     }
 
     private void initializeAdapter() {
-        switch (bundle.getString("Type")) {
-            case "Anime": {
+        switch (getArguments().getInt("Type")) {
+            case 0: {
                 Animes api = Api.getAnimes();
-                Call<List<AnimeSimple>> call = api.getList(animeFilter.getParams());
+                Call<List<AnimeSimple>> call = api.getList(filter.getParams());
                 call.enqueue(new Callback<List<AnimeSimple>>() {
                     @Override
                     public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
@@ -213,9 +125,9 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment {
                 });
                 break;
             }
-            case "Manga": {
+            case 1: {
                 Mangas api = Api.getMangas();
-                Call<List<MangaSimple>> call = api.getList(mangaFilter.getParams());
+                Call<List<MangaSimple>> call = api.getList(filter.getParams());
                 call.enqueue(new Callback<List<MangaSimple>>() {
                     @Override
                     public void onResponse(Call<List<MangaSimple>> call, Response<List<MangaSimple>> response) {
@@ -230,9 +142,9 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment {
                 });
                 break;
             }
-            case "Ranobe": {
+            case 2: {
                 Ranobe api = Api.getRanobe();
-                Call<List<RanobeSimple>> call = api.getList(ranobeFilter.getParams());
+                Call<List<RanobeSimple>> call = api.getList(filter.getParams());
                 call.enqueue(new Callback<List<RanobeSimple>>() {
                     @Override
                     public void onResponse(Call<List<RanobeSimple>> call, Response<List<RanobeSimple>> response) {
@@ -282,11 +194,11 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment {
     }
 
     private void performPagination() {
-        switch (bundle.getString("Type")) {
-            case "Anime": {
+        switch (getArguments().getInt("Type")) {
+            case 0: {
                 Animes api = Api.getAnimes();
-                animeFilter.setParam("page", Integer.toString(pageNumber));
-                Call<List<AnimeSimple>> call = api.getList(animeFilter.getParams());
+                filter.setParam("page", Integer.toString(pageNumber));
+                Call<List<AnimeSimple>> call = api.getList(filter.getParams());
                 call.enqueue(new Callback<List<AnimeSimple>>() {
                     @Override
                     public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
@@ -300,10 +212,10 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment {
                 });
                 break;
             }
-            case "Manga": {
+            case 1: {
                 Mangas api = Api.getMangas();
-                mangaFilter.setParam("page", Integer.toString(pageNumber));
-                Call<List<MangaSimple>> call = api.getList(mangaFilter.getParams());
+                filter.setParam("page", Integer.toString(pageNumber));
+                Call<List<MangaSimple>> call = api.getList(filter.getParams());
                 call.enqueue(new Callback<List<MangaSimple>>() {
                     @Override
                     public void onResponse(Call<List<MangaSimple>> call, Response<List<MangaSimple>> response) {
@@ -317,10 +229,10 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment {
                 });
                 break;
             }
-            case "Ranobe": {
+            case 2: {
                 Ranobe api = Api.getRanobe();
-                ranobeFilter.setParam("page", Integer.toString(pageNumber));
-                Call<List<RanobeSimple>> call = api.getList(ranobeFilter.getParams());
+                filter.setParam("page", Integer.toString(pageNumber));
+                Call<List<RanobeSimple>> call = api.getList(filter.getParams());
                 call.enqueue(new Callback<List<RanobeSimple>>() {
                     @Override
                     public void onResponse(Call<List<RanobeSimple>> call, Response<List<RanobeSimple>> response) {
@@ -335,6 +247,19 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment {
                 break;
             }
         }
+    }
+
+    @Override
+    public void update(SearchFilter searchFilter) {
+        filter = searchFilter;
+        initializeAdapter();
+        pageNumber = 1;
+        isLoading = true;
+        pastVisibleItems = 0;
+        visibleItemCount = 0;
+        totalItemCount = 0;
+        previousTotal = 0;
+        viewThreshold = 20;
     }
 }
 

@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.BackEnd.api;
+package com.example.shikimoriclient.BackEnd.api.anime.player;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

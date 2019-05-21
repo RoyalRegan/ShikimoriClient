@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.adapters;
+package com.example.shikimoriclient.FrontEnd.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,14 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.shikimoriclient.BackEnd.filter.FilterAdapter;
+import com.example.shikimoriclient.BackEnd.filter.FilterElement;
 import com.example.shikimoriclient.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,14 +23,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
     private LinkedHashMap<String, List<String>> expandableListDetail;
-
+    private FilterAdapter filterAdapter;
 
     public ExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                 LinkedHashMap<String, List<String>> expandableListDetail) {
+                                 LinkedHashMap<String, List<String>> expandableListDetail, FilterAdapter filterAdapter) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
+        this.filterAdapter = filterAdapter;
+    }
 
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
     }
 
     @Override
@@ -45,7 +49,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return expandedListPosition;
     }
 
-    @SuppressLint("InflateParams")
+    //TODO + - icon not text
+    @SuppressLint({"InflateParams", "SetTextI18n"})
     @Override
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
@@ -56,8 +61,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.expandabel_list_item, null);
         }
         TextView expandedListTextView = convertView
-                .findViewById(R.id.expandedListItem);
-        expandedListTextView.setText(expandedListText);
+                .findViewById(R.id.expandedListTextItem);
+        switch (filterAdapter.getCounter().get(new FilterElement(listPosition, expandedListPosition))) {
+            case 0: {
+                expandedListTextView.setText(expandedListText);
+                break;
+            }
+            case 1: {
+                expandedListTextView.setText(expandedListText + " +");
+                break;
+            }
+            case 2: {
+                expandedListTextView.setText(expandedListText + " -");
+                break;
+            }
+        }
         return convertView;
     }
 

@@ -1,7 +1,6 @@
-package com.example.shikimoriclient.BackEnd.api;
+package com.example.shikimoriclient.BackEnd.api.anime.player;
 
 import android.content.Context;
-import android.content.Intent;
 
 /*import com.example.shikimoriclient.Activitys.SeriaTypeChoice;
 import com.example.shikimoriclient.Activitys.VideoActivity;*/

@@ -1,19 +1,29 @@
-package com.example.shikimoriclient.data;
+package com.example.shikimoriclient.BackEnd.data;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class ExpandableListRanobeData {
+public class ExpandableListAnimeData {
     private static LinkedHashMap<String, List<String>> data;
 
     static {
-        data = new LinkedHashMap<>();
+        data=new LinkedHashMap<>();
 
         List<String> status = new ArrayList<>();
         status.add("Анонсировано ");
-        status.add("Сейчас издается ");
-        status.add("Изданное ");
+        status.add("Сейчас выходит ");
+        status.add("Вышедшее ");
+
+        List<String> type = new ArrayList<>();
+        type.add("TV Сериал длинный ");
+        type.add("TV Сериал средний ");
+        type.add("TV Сериал короткий ");
+        type.add("Фильм ");
+        type.add("OVA ");
+        type.add("ONA ");
+        type.add("Спешл ");
+        type.add("Клип ");
 
         List<String> sort = new ArrayList<>();
         sort.add("По рейтингу ");
@@ -39,6 +49,18 @@ public class ExpandableListRanobeData {
         score.add("8+ ");
         score.add("7+ ");
         score.add("6+ ");
+
+        List<String> duration = new ArrayList<>();
+        duration.add("До 10 минут ");
+        duration.add("До 30 минут ");
+        duration.add("Более 30 минут ");
+
+        List<String> censored = new ArrayList<>();
+        censored.add("G ");
+        censored.add("PG ");
+        censored.add("PG-13 ");
+        censored.add("R-17 ");
+        censored.add("R+ ");
 
         List<String> genre = new ArrayList<>();
         genre.add("Сёнен ");
@@ -86,9 +108,12 @@ public class ExpandableListRanobeData {
         genre.add("Юри ");
 
         data.put("СТАТУС", status);
+        data.put("ТИП", type);
         data.put("СОРТИРОВКА", sort);
         data.put("СЕЗОН", season);
         data.put("ЖАНРЫ", genre);
+        data.put("РЕЙТИНГ", censored);
+        data.put("ПРОДОЛЖИТЕЛЬНОСТЬ", duration);
         data.put("ОЦЕНКА", score);
     }
 
@@ -96,4 +121,3 @@ public class ExpandableListRanobeData {
         return data;
     }
 }
-

@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.BackEnd.api;
+package com.example.shikimoriclient.BackEnd.api.manga;
 
 import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
 

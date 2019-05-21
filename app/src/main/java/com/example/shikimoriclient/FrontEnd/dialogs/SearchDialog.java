@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.fragments;
+package com.example.shikimoriclient.FrontEnd.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,16 +12,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import com.example.shikimoriclient.BackEnd.api.Animes;
+import com.example.shikimoriclient.BackEnd.api.anime.Animes;
 import com.example.shikimoriclient.BackEnd.api.Api;
-import com.example.shikimoriclient.BackEnd.api.Mangas;
-import com.example.shikimoriclient.BackEnd.api.Ranobe;
+import com.example.shikimoriclient.BackEnd.api.manga.Mangas;
+import com.example.shikimoriclient.BackEnd.api.ranobe.Ranobe;
 import com.example.shikimoriclient.BackEnd.dao.anime.AnimeSimple;
 import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
 import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
-import com.example.shikimoriclient.adapters.CustomFragmentStatePagerAdapter;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import java.util.Collections;
@@ -34,7 +33,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CustomSearchDialog {
+import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
+
+public class SearchDialog {
     private Activity activity;
     private View view;
     private AlertDialog alertDialog;
@@ -45,7 +46,7 @@ public class CustomSearchDialog {
 
     private SearchFilter searchFilter;
 
-    public CustomSearchDialog(Activity activity, MaterialViewPager materialViewPager) {
+    public SearchDialog(Activity activity, MaterialViewPager materialViewPager) {
         this.activity = activity;
         this.materialViewPager = materialViewPager;
     }
@@ -56,10 +57,8 @@ public class CustomSearchDialog {
 
 
     private void searchByString(String str) {
-        CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
         searchFilter.setParam("search", str);
-        adapter.setFilter(searchFilter.getParams());
-        adapter.notifyDataSetChanged();
+        updateRecycleView(materialViewPager, searchFilter);
     }
 
     public void show() {
@@ -86,6 +85,9 @@ public class CustomSearchDialog {
         });
 
         searchBox.addTextChangedListener(new TextWatcher() {
+            private Timer timer = new Timer();
+            private final long DELAY = 250;
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -93,13 +95,11 @@ public class CustomSearchDialog {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (timer != null) {
+                    timer.cancel();
+                }
             }
 
-            private Timer timer = new Timer();
-            private final long DELAY = 100;
-
-
-            //TODO: Cases (?)
             @Override
             public void afterTextChanged(Editable editable) {
                 timer.cancel();

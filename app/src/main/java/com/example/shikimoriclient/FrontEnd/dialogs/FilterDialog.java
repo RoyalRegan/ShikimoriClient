@@ -1,6 +1,5 @@
-package com.example.shikimoriclient.fragments;
+package com.example.shikimoriclient.FrontEnd.dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.View;
@@ -9,19 +8,19 @@ import android.widget.ExpandableListView;
 
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
-import com.example.shikimoriclient.adapters.CustomFragmentStatePagerAdapter;
-import com.example.shikimoriclient.adapters.ExpandableListAdapter;
-import com.example.shikimoriclient.data.ExpandableListAnimeData;
-import com.example.shikimoriclient.data.ExpandableListRanobeData;
-import com.example.shikimoriclient.data.ExpandableListMangaData;
+import com.example.shikimoriclient.FrontEnd.adapters.ExpandableListAdapter;
+import com.example.shikimoriclient.BackEnd.data.ExpandableListAnimeData;
+import com.example.shikimoriclient.BackEnd.data.ExpandableListRanobeData;
+import com.example.shikimoriclient.BackEnd.data.ExpandableListMangaData;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class CustomFilterDialog {
+import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
+
+public class FilterDialog {
     private Activity activity;
     private View view;
     private AlertDialog alertDialog;
@@ -33,15 +32,13 @@ public class CustomFilterDialog {
     private LinkedHashMap<String, List<String>> expandableListDetail;
     private List<String> expandableListTitle;
 
-    public CustomFilterDialog(Activity activity, MaterialViewPager materialViewPager) {
+    public FilterDialog(Activity activity, MaterialViewPager materialViewPager) {
         this.activity = activity;
         this.materialViewPager = materialViewPager;
     }
 
-    private void findByParams(HashMap<String, String> params) {
-        CustomFragmentStatePagerAdapter adapter = (CustomFragmentStatePagerAdapter) materialViewPager.getViewPager().getAdapter();
-        adapter.setFilter(params);
-        adapter.notifyDataSetChanged();
+    private void findByParams(SearchFilter searchFilter) {
+        updateRecycleView(materialViewPager, searchFilter);
         alertDialog.dismiss();
     }
 
@@ -63,19 +60,18 @@ public class CustomFilterDialog {
     }
 
     private void setCompConfiguration() {
-        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(activity, expandableListTitle, expandableListDetail);
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(activity, expandableListTitle, expandableListDetail,searchFilter.getFilterAdapter());
         expandableListView.setAdapter(expandableListAdapter);
     }
 
-    @SuppressLint("SetTextI18n")
     private void setListeners() {
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-            //TODO: Change + -
             searchFilter.getFilterAdapter().changeCondition(groupPosition, childPosition);
+            ((ExpandableListAdapter) expandableListView.getExpandableListAdapter()).notifyDataSetChanged();
             return false;
         });
         findButton.setOnClickListener(v -> {
-            findByParams(searchFilter.getParams());
+            findByParams(searchFilter);
         });
     }
 
