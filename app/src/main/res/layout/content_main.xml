@@ -10,31 +10,46 @@
     android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
-    <com.github.florent37.materialviewpager.MaterialViewPager
-        android:id="@+id/materialViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:viewpager_animatedHeaderImage="true"
-        app:viewpager_color="@color/purple"
-        app:viewpager_disableToolbar="false"
-        app:viewpager_displayToolbarWhenSwipe="true"
-        app:viewpager_enableToolbarElevation="true"
-        app:viewpager_header="@layout/material_viewpager_image"
-        app:viewpager_headerAdditionalHeight="20dp"
-        app:viewpager_headerAlpha="0.7"
-        app:viewpager_headerHeight="200dp"
-        app:viewpager_hideLogoWithFade="false"
-        app:viewpager_hideToolbarAndTitle="false"
-        app:viewpager_logo="@layout/material_viewpager_text"
-        app:viewpager_logoMarginTop="100dp"
-        app:viewpager_pagerTitleStrip="@layout/material_view_pager_pagertitlestrip_newstand"
-        app:viewpager_imageHeaderDarkLayerAlpha="@layout/material_viewpager_image"
-        app:viewpager_parallaxHeaderFactor="1.5"
-        app:viewpager_transparentToolbar="true"
-        tools:layout_editor_absoluteX="-8dp" />
+        <com.github.florent37.materialviewpager.MaterialViewPager
+            android:id="@+id/materialViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:viewpager_animatedHeaderImage="true"
+            app:viewpager_color="@color/purple"
+            app:viewpager_disableToolbar="false"
+            app:viewpager_displayToolbarWhenSwipe="true"
+            app:viewpager_enableToolbarElevation="true"
+            app:viewpager_header="@layout/material_viewpager_image"
+            app:viewpager_headerAdditionalHeight="20dp"
+            app:viewpager_headerAlpha="0.7"
+            app:viewpager_headerHeight="200dp"
+            app:viewpager_hideLogoWithFade="false"
+            app:viewpager_hideToolbarAndTitle="false"
+            app:viewpager_logo="@layout/material_viewpager_text"
+            app:viewpager_logoMarginTop="100dp"
+            app:viewpager_pagerTitleStrip="@layout/material_view_pager_pagertitlestrip_newstand"
+            app:viewpager_imageHeaderDarkLayerAlpha="@layout/material_viewpager_image"
+            app:viewpager_parallaxHeaderFactor="1.5"
+            app:viewpager_transparentToolbar="true"
+            tools:layout_editor_absoluteX="-8dp" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="400dp"
+            android:visibility="visible"
+            app:indicatorColor="@color/mediumPurple"
+            app:indicatorName="BallScaleMultipleIndicator" />
+    </FrameLayout>
 
     <include
         layout="@layout/recycle_card"

@@ -21,8 +21,6 @@
     <string name="choose_param">Выберите параметры</string>
     <string name="search">Найти</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_anime_details">AnimeDetails</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

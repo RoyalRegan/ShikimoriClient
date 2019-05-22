@@ -38,7 +38,6 @@ import java.util.List;
 import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
 
 //TODO: Fix tab background
-//TODO: Fix rotate screen (or lock it)
 //TODO: Status bar on RecyclerViews(on self and on imageViews)
 //TODO: Status bar in search list while result updating
 
