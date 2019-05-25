@@ -22,6 +22,7 @@ import com.example.shikimoriclient.R;
 import com.example.shikimoriclient.FrontEnd.adapters.RecyclerAdapter;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
     private LinearLayoutManager layoutManager;
     private SearchFilter filter;
     private int type;
+    private AVLoadingIndicatorView progressBar;
 
     private static Bundle instanceBundle = new Bundle();
 
@@ -49,7 +51,6 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
     private int previousTotal = 0;
     private int viewThreshold = 20;
 
-    //TODO: Remember scroll position
     public static android.support.v4.app.Fragment newInstance(int id) {
         switch (id) {
             case 0: {

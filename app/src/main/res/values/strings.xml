@@ -8,6 +8,9 @@
     //////////////////////////////////////////////////////////////////////////
     <string name="nav_header_title">Энциклопеция аниме и манги</string>
     <string name="checklist">Мои списки</string>
+    <string name="exit">Выход</string>
+    <string name="enter">Вход</string>
+    <string name="name">Имя</string>
     <string name="list">База</string>
     <string name="calendar">Календарь</string>
     <string name="notification">Уведомления</string>
@@ -21,8 +24,6 @@
     <string name="choose_param">Выберите параметры</string>
     <string name="search">Найти</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_anime_details">AnimeDetails</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
