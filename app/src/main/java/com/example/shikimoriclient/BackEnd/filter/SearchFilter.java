@@ -20,7 +20,7 @@ public class SearchFilter {
         params = new HashMap<>();
     }
 
-    public void buildParamsByFilter() {
+    private void buildParamsByFilter() {
         for (FilterElement counter : filterAdapter.getCounter().keySet()) {
             if (filterAdapter.getCounter().get(new FilterElement(counter.getGroupId(), counter.getChildId())) == 1) {
                 this.setCombineParam(searchFilterData.getParamsNameByColumnId(counter.getGroupId()),
@@ -33,12 +33,11 @@ public class SearchFilter {
         }
     }
 
-    public SearchFilter setParam(String param, String value) {
+    public void setParam(String param, String value) {
         params.put(param, value);
-        return this;
     }
 
-    public SearchFilter setCombineParam(String param, String value, boolean subtract) {
+    private void setCombineParam(String param, String value, boolean subtract) {
         if (params.get(param) != null) {
             if (subtract) {
                 params.put(param, params.get(param) + ",!" + value);
@@ -52,15 +51,18 @@ public class SearchFilter {
                 params.put(param, value);
             }
         }
-        return this;
     }
 
     public HashMap<String, String> getParams() {
         if (filterAdapter != null) {
             String searchStr = params.get("search");
+            String page = params.get("page");
             params.clear();
             if (searchStr != null) {
                 params.put("search", searchStr);
+            }
+            if (page != null) {
+                params.put("page", page);
             }
             buildParamsByFilter();
         }
@@ -75,9 +77,5 @@ public class SearchFilter {
     public void rest() {
         filterAdapter.reset();
         params.clear();
-    }
-
-    public Searchable getSearchFilterData() {
-        return searchFilterData;
     }
 }

@@ -1,6 +1,8 @@
-package com.example.shikimoriclient.BackEnd.dao.anime;
+package com.example.shikimoriclient.BackEnd.dao;
 
-public class Genre {
+import java.io.Serializable;
+
+public class Genre implements Serializable {
     private int id;
     private String name;
     private String russian;

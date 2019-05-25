@@ -61,6 +61,7 @@ public class SearchableAnimeData implements Searchable {
         censored.add("pg_13");
         censored.add("r");
         censored.add("r_plus");
+        censored.add("rx");
 
         List<String> genre = new ArrayList<>();
         genre.add("27");

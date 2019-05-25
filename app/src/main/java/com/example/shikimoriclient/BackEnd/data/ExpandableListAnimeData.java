@@ -61,6 +61,7 @@ public class ExpandableListAnimeData {
         censored.add("PG-13 ");
         censored.add("R-17 ");
         censored.add("R+ ");
+        censored.add("Rx");
 
         List<String> genre = new ArrayList<>();
         genre.add("Сёнен ");

@@ -1,6 +1,5 @@
 package com.example.shikimoriclient.FrontEnd.adapters;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,20 +9,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shikimoriclient.BackEnd.api.Api;
-import com.example.shikimoriclient.BackEnd.dao.Item;
+import com.example.shikimoriclient.BackEnd.api.Handler;
+import com.example.shikimoriclient.BackEnd.api.anime.AnimeHandler;
+import com.example.shikimoriclient.BackEnd.api.manga.MangaHandler;
+import com.example.shikimoriclient.BackEnd.api.ranobe.RanobeHandler;
+import com.example.shikimoriclient.BackEnd.dao.ItemSimple;
+import com.example.shikimoriclient.BackEnd.dao.anime.AnimeSimple;
+import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
+import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 import com.example.shikimoriclient.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
-    private List<Item> itemsList;
+    private List<ItemSimple> itemsList;
 
-    public <T extends Item> RecyclerAdapter(List<T> animeList) {
+    public <T extends ItemSimple> RecyclerAdapter(List<T> animeList) {
         itemsList = new ArrayList<>();
         itemsList.addAll(animeList);
     }
@@ -37,17 +42,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int i) {
-        Item item = itemsList.get(i);
-        viewHolder.titleName.setText(item.getName());
-        viewHolder.titleNameRus.setText(item.getRussian());
-        Picasso.get().load(Api.baseURL + item.getImage().getOriginal()).into(viewHolder.titleImage);
+        ItemSimple itemSimple = itemsList.get(i);
+        viewHolder.titleName.setText(itemSimple.getName());
+        viewHolder.titleNameRus.setText(itemSimple.getRussian());
+        Picasso.get().load(Api.baseURL + itemSimple.getImage().getOriginal()).into(viewHolder.titleImage);
         viewHolder.setItemClickListener((view, position, isLongClicK) -> {
             if (!isLongClicK) {
-               /* Intent intent = new Intent(context, SerilaNumberList.class);
-                SerilaNumberList.seriaCount = itemsList.get(position).getEpisodes();
-                SerilaNumberList.animeId = itemsList.get(position).getUrl();
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);*/
+                ItemSimple selectedItemSimple = itemsList.get(position);
+                Handler handler = null;
+                if (selectedItemSimple instanceof AnimeSimple) {
+                    handler = new AnimeHandler();
+                }
+                if (selectedItemSimple instanceof MangaSimple) {
+                    handler = new MangaHandler();
+                }
+                if (selectedItemSimple instanceof RanobeSimple) {
+                    handler = new RanobeHandler();
+                }
+                handler.findById(selectedItemSimple.getId(),view.getContext());
             }
         });
     }
@@ -88,7 +100,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         }
     }
 
-    public <T extends Item> void addItems(List<T> titels) {
+    public <T extends ItemSimple> void addItems(List<T> titels) {
         itemsList.addAll(titels);
         notifyDataSetChanged();
     }

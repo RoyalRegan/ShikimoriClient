@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,13 +16,12 @@ import android.widget.ListView;
 import com.example.shikimoriclient.BackEnd.api.anime.Animes;
 import com.example.shikimoriclient.BackEnd.api.Api;
 import com.example.shikimoriclient.BackEnd.api.manga.Mangas;
-import com.example.shikimoriclient.BackEnd.api.ranobe.Ranobe;
+import com.example.shikimoriclient.BackEnd.api.ranobe.Ranobes;
 import com.example.shikimoriclient.BackEnd.dao.anime.AnimeSimple;
 import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
 import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
-import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -39,16 +39,16 @@ public class SearchDialog {
     private Activity activity;
     private View view;
     private AlertDialog alertDialog;
-    private MaterialViewPager materialViewPager;
+    private ViewPager viewPager;
     private EditText searchBox;
     private ListView listView;
     private ArrayAdapter<String> searchListAdapter;
 
     private SearchFilter searchFilter;
 
-    public SearchDialog(Activity activity, MaterialViewPager materialViewPager) {
+    public SearchDialog(Activity activity, ViewPager viewPager) {
         this.activity = activity;
-        this.materialViewPager = materialViewPager;
+        this.viewPager = viewPager;
     }
 
     public void setFilter(SearchFilter searchFilter) {
@@ -58,7 +58,7 @@ public class SearchDialog {
 
     private void searchByString(String str) {
         searchFilter.setParam("search", str);
-        updateRecycleView(materialViewPager, searchFilter);
+        updateRecycleView( viewPager, searchFilter);
     }
 
     public void show() {
@@ -112,7 +112,7 @@ public class SearchDialog {
                                 List<String> findLists = new LinkedList<>();
                                 String searchText = searchBox.getText().toString();
                                 if (!searchText.equals("")) {
-                                    switch (materialViewPager.getViewPager().getCurrentItem()) {
+                                    switch (viewPager.getCurrentItem()) {
                                         case 0: {
                                             Animes api = Api.getAnimes();
                                             searchFilter.setParam("search", searchText);
@@ -178,7 +178,7 @@ public class SearchDialog {
                                             break;
                                         }
                                         case 2: {
-                                            Ranobe api = Api.getRanobe();
+                                            Ranobes api = Api.getRanobe();
                                             searchFilter.setParam("search", searchText);
                                             Call<List<RanobeSimple>> call = api.getList(searchFilter.getParams());
                                             call.enqueue(new Callback<List<RanobeSimple>>() {

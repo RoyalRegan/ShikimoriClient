@@ -1,6 +1,8 @@
 package com.example.shikimoriclient.BackEnd.dao;
 
-public class ScoreRate {
+import java.io.Serializable;
+
+public class ScoreRate implements Serializable {
     private int name;
     private int value;
 

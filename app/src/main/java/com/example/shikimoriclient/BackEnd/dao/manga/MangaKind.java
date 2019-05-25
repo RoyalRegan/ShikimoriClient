@@ -1,14 +1,25 @@
 package com.example.shikimoriclient.BackEnd.dao.manga;
 
-public enum MangaKind {
+import android.support.annotation.NonNull;
+
+import java.io.Serializable;
+
+public enum MangaKind implements Serializable {
     MANGA("manga"),
     MANHWA("manhwa"),
     MANHUA("manhua"),
-    NOVEL("novel"),
     ONE_SHOT("one_shot"),
-    DOUJIN("doujin")
-    ;
-    MangaKind(String kind) {
+    DOUJIN("doujin");
 
+    private String kind;
+
+    MangaKind(String kind) {
+        this.kind = kind;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return kind;
     }
 }

@@ -2,7 +2,7 @@ package com.example.shikimoriclient.BackEnd.api;
 
 import com.example.shikimoriclient.BackEnd.api.anime.Animes;
 import com.example.shikimoriclient.BackEnd.api.manga.Mangas;
-import com.example.shikimoriclient.BackEnd.api.ranobe.Ranobe;
+import com.example.shikimoriclient.BackEnd.api.ranobe.Ranobes;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -27,8 +27,8 @@ public class Api {
         return retrofit.create(Mangas.class);
     }
 
-    public static Ranobe getRanobe() {
-        return retrofit.create(Ranobe.class);
+    public static Ranobes getRanobe() {
+        return retrofit.create(Ranobes.class);
     }
 }
 

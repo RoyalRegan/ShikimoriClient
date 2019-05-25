@@ -1,8 +1,10 @@
 package com.example.shikimoriclient.BackEnd.dao.manga;
 
-import com.example.shikimoriclient.BackEnd.dao.Item;
+import com.example.shikimoriclient.BackEnd.dao.ItemSimple;
 
-public class MangaSimple  extends Item {
+import java.io.Serializable;
+
+public class MangaSimple  extends ItemSimple implements Serializable {
 
     private String kind;
     private int volumes;

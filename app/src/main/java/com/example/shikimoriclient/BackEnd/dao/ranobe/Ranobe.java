@@ -1,5 +1,8 @@
 package com.example.shikimoriclient.BackEnd.dao.ranobe;
 
-public class Ranobe extends RanobeSimple {
+import com.example.shikimoriclient.BackEnd.dao.manga.Manga;
 
+import java.io.Serializable;
+
+public class Ranobe extends Manga implements Serializable {
 }

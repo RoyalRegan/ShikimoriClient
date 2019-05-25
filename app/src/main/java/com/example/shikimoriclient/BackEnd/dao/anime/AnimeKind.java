@@ -1,20 +1,24 @@
 package com.example.shikimoriclient.BackEnd.dao.anime;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
-public enum AnimeKind {
+import java.io.Serializable;
+
+public enum AnimeKind implements Serializable {
     @SerializedName("tv")
-    TV("tv"),
+    TV("TV Сериал"),
     @SerializedName("movie")
-    MOVIE("movie"),
+    MOVIE("Фильм"),
     @SerializedName("ova")
-    OVA("ova"),
+    OVA("OVA"),
     @SerializedName("ona")
-    ONA("ona"),
+    ONA("ONA"),
     @SerializedName("special")
-    SPECIAL("special"),
+    SPECIAL("Спешл"),
     @SerializedName("music")
-    MUSIC("music"),
+    MUSIC("Клип"),
     @SerializedName("tv_13")
     TV_13("tv_13"),
     @SerializedName("tv_24")
@@ -28,6 +32,7 @@ public enum AnimeKind {
         this.kind = kind;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return kind;
