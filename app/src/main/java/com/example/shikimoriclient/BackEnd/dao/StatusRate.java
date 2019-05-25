@@ -1,6 +1,8 @@
 package com.example.shikimoriclient.BackEnd.dao;
 
-public class StatusRate {
+import java.io.Serializable;
+
+public class StatusRate implements Serializable {
     private String name;
     private int value;
 

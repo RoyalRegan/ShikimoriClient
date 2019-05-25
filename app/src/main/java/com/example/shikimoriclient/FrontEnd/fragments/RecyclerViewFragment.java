@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.example.shikimoriclient.BackEnd.api.anime.Animes;
 import com.example.shikimoriclient.BackEnd.api.Api;
 import com.example.shikimoriclient.BackEnd.api.manga.Mangas;
-import com.example.shikimoriclient.BackEnd.api.ranobe.Ranobe;
+import com.example.shikimoriclient.BackEnd.api.ranobe.Ranobes;
 import com.example.shikimoriclient.BackEnd.dao.anime.AnimeSimple;
 import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
 import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
@@ -29,12 +29,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.github.florent37.materialviewpager.MaterialViewPagerHelper.registerRecyclerView;
+
 public class RecyclerViewFragment extends android.support.v4.app.Fragment implements Updatable {
 
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
     private LinearLayoutManager layoutManager;
     private SearchFilter filter;
+    private int type;
 
     private static Bundle instanceBundle = new Bundle();
 
@@ -66,22 +69,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
     }
 
     public RecyclerViewFragment() {
-        Bundle bundle = new Bundle();
-        switch (instanceBundle.getInt("Type")) {
-            case 0: {
-                bundle.putInt("Type", 0);
-                break;
-            }
-            case 1: {
-                bundle.putInt("Type", 1);
-                break;
-            }
-            case 2: {
-                bundle.putInt("Type", 2);
-                break;
-            }
-        }
-        this.setArguments(bundle);
+        type = instanceBundle.getInt("Type");
     }
 
     @Override
@@ -94,7 +82,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
         super.onViewCreated(view, savedInstanceState);
         initializeComp(view);
         initializeAdapter();
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), recyclerView);
+        registerRecyclerView(getActivity(), recyclerView);
     }
 
     private void initializeComp(View view) {
@@ -107,7 +95,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
     }
 
     private void initializeAdapter() {
-        switch (getArguments().getInt("Type")) {
+        switch (type) {
             case 0: {
                 Animes api = Api.getAnimes();
                 Call<List<AnimeSimple>> call = api.getList(filter.getParams());
@@ -143,7 +131,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
                 break;
             }
             case 2: {
-                Ranobe api = Api.getRanobe();
+                Ranobes api = Api.getRanobe();
                 Call<List<RanobeSimple>> call = api.getList(filter.getParams());
                 call.enqueue(new Callback<List<RanobeSimple>>() {
                     @Override
@@ -194,7 +182,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
     }
 
     private void performPagination() {
-        switch (getArguments().getInt("Type")) {
+        switch (type) {
             case 0: {
                 Animes api = Api.getAnimes();
                 filter.setParam("page", Integer.toString(pageNumber));
@@ -230,7 +218,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
                 break;
             }
             case 2: {
-                Ranobe api = Api.getRanobe();
+                Ranobes api = Api.getRanobe();
                 filter.setParam("page", Integer.toString(pageNumber));
                 Call<List<RanobeSimple>> call = api.getList(filter.getParams());
                 call.enqueue(new Callback<List<RanobeSimple>>() {

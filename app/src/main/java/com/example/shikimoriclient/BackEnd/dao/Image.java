@@ -1,6 +1,8 @@
 package com.example.shikimoriclient.BackEnd.dao;
 
-public class Image {
+import java.io.Serializable;
+
+public class Image implements Serializable {
     private String original;
     private String preview;
     private String x96;

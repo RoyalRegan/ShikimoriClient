@@ -1,13 +1,24 @@
 package com.example.shikimoriclient.BackEnd.dao.anime;
 
-public enum AnimeRating {
-    NONE("none"),
-    G("g"),
-    PG("pg"),
-    PG_13("pg_13"),
-    R("r"),
-    R_PLUS("r_plus"),
-    RX("rx");
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public enum AnimeRating implements Serializable {
+    @SerializedName("none")
+    NONE("None"),
+    @SerializedName("g")
+    G("G"),
+    @SerializedName("pg")
+    PG("PG"),
+    @SerializedName("pg_13")
+    PG_13("PG-13"),
+    @SerializedName("r")
+    R("R"),
+    @SerializedName("r_plus")
+    R_PLUS("R+"),
+    @SerializedName("rx")
+    RX("RX");
 
     private String rating;
 
@@ -19,5 +30,4 @@ public enum AnimeRating {
     public String toString() {
         return rating;
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.shikimoriclient;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
@@ -26,7 +27,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.example.shikimoriclient.FrontEnd.adapters.CustomFragmentStatePagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,8 +36,6 @@ import java.util.List;
 
 import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
 
-//TODO: Fix tab background
-//TODO: Fix rotate screen (or lock it)
 //TODO: Status bar on RecyclerViews(on self and on imageViews)
 //TODO: Status bar in search list while result updating
 
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton fabFilter;
     private FloatingActionButton fabSearch;
     private FloatingActionButton fabBack;
-    private MaterialViewPager materialViewPager;
+    private ViewPager viewPager;
     private SearchDialog searchDialog;
     private FilterDialog filterDialog;
 
@@ -80,9 +78,9 @@ public class MainActivity extends AppCompatActivity
         fabFilter = findViewById(R.id.fabFilter);
         fabSearch = findViewById(R.id.fabSearch);
         fabBack = findViewById(R.id.fabBack);
-        materialViewPager = findViewById(R.id.materialViewPager);
-        searchDialog = new SearchDialog(this, materialViewPager);
-        filterDialog = new FilterDialog(this, materialViewPager);
+        viewPager = findViewById(R.id.viewPager);
+        searchDialog = new SearchDialog(this, viewPager);
+        filterDialog = new FilterDialog(this, viewPager);
         setCompConfiguration();
         fillComp();
         setListeners();
@@ -129,9 +127,8 @@ public class MainActivity extends AppCompatActivity
 
     private void setCompConfiguration() {
         CustomFragmentStatePagerAdapter pagerAdapter = new CustomFragmentStatePagerAdapter(getSupportFragmentManager(), TAB_COUNT);
-        materialViewPager.getViewPager().setAdapter(pagerAdapter);
-        materialViewPager.getViewPager().setOffscreenPageLimit(TAB_COUNT);
-        materialViewPager.getPagerTitleStrip().setViewPager(materialViewPager.getViewPager());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(TAB_COUNT);
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
@@ -150,7 +147,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         fabSearch.setOnClickListener(view -> {
-            switch (materialViewPager.getViewPager().getCurrentItem()) {
+            switch (viewPager.getCurrentItem()) {
                 case 0: {
                     searchDialog.setFilter(animeFilter);
                     break;
@@ -169,7 +166,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         fabFilter.setOnClickListener(view -> {
-            switch (materialViewPager.getViewPager().getCurrentItem()) {
+            switch (viewPager.getCurrentItem()) {
                 case 0: {
                     filterDialog.setFilter(animeFilter);
                     break;
@@ -187,20 +184,20 @@ public class MainActivity extends AppCompatActivity
             filterDialog.show();
         });
         fabBack.setOnClickListener(view -> {
-            switch (materialViewPager.getViewPager().getCurrentItem()) {
+            switch (viewPager.getCurrentItem()) {
                 case 0: {
                     animeFilter.rest();
-                    updateRecycleView(materialViewPager, animeFilter);
+                    updateRecycleView(viewPager, animeFilter);
                     break;
                 }
                 case 1: {
                     mangaFilter.rest();
-                    updateRecycleView(materialViewPager, mangaFilter);
+                    updateRecycleView(viewPager, mangaFilter);
                     break;
                 }
                 case 2: {
                     ranobeFilter.rest();
-                    updateRecycleView(materialViewPager, ranobeFilter);
+                    updateRecycleView(viewPager, ranobeFilter);
                     break;
                 }
             }

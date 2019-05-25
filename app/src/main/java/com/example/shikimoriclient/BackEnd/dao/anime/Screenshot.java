@@ -1,6 +1,8 @@
 package com.example.shikimoriclient.BackEnd.dao.anime;
 
-public class Screenshot {
+import java.io.Serializable;
+
+public class Screenshot implements Serializable {
 
     private String original;
     private String preview;

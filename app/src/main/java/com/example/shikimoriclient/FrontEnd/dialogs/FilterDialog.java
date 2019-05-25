@@ -2,6 +2,7 @@ package com.example.shikimoriclient.FrontEnd.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -12,7 +13,6 @@ import com.example.shikimoriclient.FrontEnd.adapters.ExpandableListAdapter;
 import com.example.shikimoriclient.BackEnd.data.ExpandableListAnimeData;
 import com.example.shikimoriclient.BackEnd.data.ExpandableListRanobeData;
 import com.example.shikimoriclient.BackEnd.data.ExpandableListMangaData;
-import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -24,7 +24,7 @@ public class FilterDialog {
     private Activity activity;
     private View view;
     private AlertDialog alertDialog;
-    private MaterialViewPager materialViewPager;
+    private ViewPager viewPager;
     private ExpandableListView expandableListView;
     private Button findButton;
 
@@ -32,13 +32,13 @@ public class FilterDialog {
     private LinkedHashMap<String, List<String>> expandableListDetail;
     private List<String> expandableListTitle;
 
-    public FilterDialog(Activity activity, MaterialViewPager materialViewPager) {
+    public FilterDialog(Activity activity, ViewPager viewPager) {
         this.activity = activity;
-        this.materialViewPager = materialViewPager;
+        this.viewPager=viewPager;
     }
 
     private void findByParams(SearchFilter searchFilter) {
-        updateRecycleView(materialViewPager, searchFilter);
+        updateRecycleView(viewPager, searchFilter);
         alertDialog.dismiss();
     }
 
@@ -76,7 +76,7 @@ public class FilterDialog {
     }
 
     public void setFilter(SearchFilter searchFilter) {
-        switch (materialViewPager.getViewPager().getCurrentItem()) {
+        switch (viewPager.getCurrentItem()) {
             case 0: {
                 expandableListDetail = ExpandableListAnimeData.getData();
                 expandableListTitle = new ArrayList<>(expandableListDetail.keySet());

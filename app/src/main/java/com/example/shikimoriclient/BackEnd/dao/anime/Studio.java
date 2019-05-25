@@ -2,7 +2,9 @@ package com.example.shikimoriclient.BackEnd.dao.anime;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Studio {
+import java.io.Serializable;
+
+public class Studio implements Serializable {
     private int id;
     private String name;
     @SerializedName("filtered_name")

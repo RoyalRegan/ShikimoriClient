@@ -2,7 +2,9 @@ package com.example.shikimoriclient.BackEnd.dao.anime;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Video {
+import java.io.Serializable;
+
+public class Video implements Serializable {
     private int id;
     private String url;
     @SerializedName("image_url")

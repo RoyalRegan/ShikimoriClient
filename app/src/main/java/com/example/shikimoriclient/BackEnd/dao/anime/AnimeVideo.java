@@ -1,14 +1,15 @@
 package com.example.shikimoriclient.BackEnd.dao.anime;
 
-public class AnimeVideo {
+import java.io.Serializable;
+
+public class AnimeVideo implements Serializable {
     private String id;
     private String type;
     private String host;
-    private String author = "";
+    private String author;
 
     public AnimeVideo() {
     }
-
 
     public void setType(String type) {
         this.type = type;
