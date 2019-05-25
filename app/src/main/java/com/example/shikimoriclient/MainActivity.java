@@ -2,6 +2,7 @@ package com.example.shikimoriclient;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 
@@ -24,9 +25,12 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.shikimoriclient.FrontEnd.adapters.CustomFragmentStatePagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,10 +57,11 @@ public class MainActivity extends AppCompatActivity
     private ViewPager viewPager;
     private SearchDialog searchDialog;
     private FilterDialog filterDialog;
-
+    private TabLayout tabLayout;
     private SearchFilter animeFilter;
     private SearchFilter mangaFilter;
     private SearchFilter ranobeFilter;
+    private AVLoadingIndicatorView progressbar;
 
     private static final int TAB_COUNT = 3;
 
@@ -79,6 +84,9 @@ public class MainActivity extends AppCompatActivity
         fabSearch = findViewById(R.id.fabSearch);
         fabBack = findViewById(R.id.fabBack);
         viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        progressbar = findViewById(R.id.avi);
         searchDialog = new SearchDialog(this, viewPager);
         filterDialog = new FilterDialog(this, viewPager);
         setCompConfiguration();
@@ -129,7 +137,6 @@ public class MainActivity extends AppCompatActivity
         CustomFragmentStatePagerAdapter pagerAdapter = new CustomFragmentStatePagerAdapter(getSupportFragmentManager(), TAB_COUNT);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(TAB_COUNT);
-
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);

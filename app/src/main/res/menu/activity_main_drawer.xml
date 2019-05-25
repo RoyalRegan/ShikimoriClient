@@ -3,24 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none">
+
         <item
-            android:id="@+id/nav_checklist"
+            android:id="@+id/name"
             android:icon="@drawable/checklist"
-            android:title="@string/checklist"
-            />
+            android:title="@string/name" />
+
+    </group>
+    <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_list"
             android:icon="@drawable/list"
             android:title="@string/list" />
         <item
-            android:id="@+id/nav_calendar"
-            android:icon="@drawable/calendar"
-            android:title="@string/calendar" />
+            android:id="@+id/nav_checklist"
+            android:icon="@drawable/checklist"
+            android:title="@string/checklist" />
+
+    </group>
+
+    <group android:checkableBehavior="single"
+        >
+
         <item
-            android:id="@+id/nav_notifications"
-            android:icon="@drawable/alarm"
-            android:title="@string/notification" />
+            android:id="@+id/enter"
+            android:icon="@drawable/enter_exit"
+            android:title="@string/enter" />
 
     </group>
 
