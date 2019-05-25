@@ -20,7 +20,6 @@ import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
 import com.example.shikimoriclient.FrontEnd.adapters.RecyclerAdapter;
-import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.wang.avi.AVLoadingIndicatorView;
 

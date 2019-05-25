@@ -28,7 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.example.shikimoriclient.FrontEnd.adapters.CustomFragmentStatePagerAdapter;
+import com.example.shikimoriclient.FrontEnd.adapters.PagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -42,7 +42,6 @@ import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
 
 //TODO: Status bar on RecyclerViews(on self and on imageViews)
 //TODO: Status bar in search list while result updating
-
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -134,9 +133,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setCompConfiguration() {
-        CustomFragmentStatePagerAdapter pagerAdapter = new CustomFragmentStatePagerAdapter(getSupportFragmentManager(), TAB_COUNT);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), TAB_COUNT);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(TAB_COUNT);
+
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);

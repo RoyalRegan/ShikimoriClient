@@ -1,5 +1,6 @@
 package com.example.shikimoriclient.FrontEnd.adapters;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shikimoriclient.BackEnd.api.Api;
-import com.example.shikimoriclient.BackEnd.api.Handler;
-import com.example.shikimoriclient.BackEnd.api.anime.AnimeHandler;
-import com.example.shikimoriclient.BackEnd.api.manga.MangaHandler;
-import com.example.shikimoriclient.BackEnd.api.ranobe.RanobeHandler;
+import com.example.shikimoriclient.BackEnd.api.ItemHandler;
+import com.example.shikimoriclient.BackEnd.api.anime.AnimeItemHandler;
+import com.example.shikimoriclient.BackEnd.api.manga.MangaItemHandler;
+import com.example.shikimoriclient.BackEnd.api.ranobe.RanobeItemHandler;
 import com.example.shikimoriclient.BackEnd.dao.ItemSimple;
 import com.example.shikimoriclient.BackEnd.dao.anime.AnimeSimple;
 import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
@@ -27,6 +28,7 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
     private List<ItemSimple> itemsList;
+    private boolean clicked = false;
 
     public <T extends ItemSimple> RecyclerAdapter(List<T> animeList) {
         itemsList = new ArrayList<>();
@@ -47,19 +49,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         viewHolder.titleNameRus.setText(itemSimple.getRussian());
         Picasso.get().load(Api.baseURL + itemSimple.getImage().getOriginal()).into(viewHolder.titleImage);
         viewHolder.setItemClickListener((view, position, isLongClicK) -> {
-            if (!isLongClicK) {
+            if (!isLongClicK && !clicked) {
+                clicked = true;
                 ItemSimple selectedItemSimple = itemsList.get(position);
-                Handler handler = null;
+                ItemHandler itemHandler = null;
                 if (selectedItemSimple instanceof AnimeSimple) {
-                    handler = new AnimeHandler();
+                    itemHandler = new AnimeItemHandler();
                 }
                 if (selectedItemSimple instanceof MangaSimple) {
-                    handler = new MangaHandler();
+                    itemHandler = new MangaItemHandler();
                 }
                 if (selectedItemSimple instanceof RanobeSimple) {
-                    handler = new RanobeHandler();
+                    itemHandler = new RanobeItemHandler();
                 }
-                handler.findById(selectedItemSimple.getId(),view.getContext());
+                itemHandler.findById(selectedItemSimple.getId(), view.getContext());
+                new Handler().postDelayed(() -> clicked = false, 1000);
             }
         });
     }

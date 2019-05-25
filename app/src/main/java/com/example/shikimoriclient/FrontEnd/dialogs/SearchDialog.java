@@ -58,12 +58,17 @@ public class SearchDialog {
 
     private void searchByString(String str) {
         searchFilter.setParam("search", str);
-        updateRecycleView( viewPager, searchFilter);
+        updateRecycleView(viewPager, searchFilter);
     }
 
     public void show() {
         final AlertDialog.Builder adb = new AlertDialog.Builder(activity);
         initializeComp();
+        String searchText = searchFilter.getParams().get("search");
+        if (searchText != null) {
+            searchBox.setText(searchFilter.getParams().get("search"));
+            searchBox.setSelection(searchBox.getText().length());
+        }
         adb.setView(view);
         alertDialog = adb.create();
         alertDialog.setCancelable(true);
