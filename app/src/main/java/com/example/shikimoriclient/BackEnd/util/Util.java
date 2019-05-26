@@ -7,9 +7,9 @@ import com.example.shikimoriclient.FrontEnd.adapters.PagerAdapter;
 
 public class Util {
 
-    public static void updateRecycleView(ViewPager viewPager/*MaterialViewPager materialViewPager*/, SearchFilter searchFilter) {
-        PagerAdapter adapter = (PagerAdapter)/* materialViewPager.getViewPager()*/viewPager.getAdapter();
+    public static void updateRecycleView(ViewPager viewPager, SearchFilter searchFilter) {
+        PagerAdapter adapter = (PagerAdapter) viewPager.getAdapter();
         adapter.setFilter(searchFilter);
-        adapter.updateTab(/*materialViewPager.getViewPager()*/viewPager.getCurrentItem());
+        adapter.updateTab(viewPager.getCurrentItem());
     }
 }

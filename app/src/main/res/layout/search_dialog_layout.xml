@@ -43,12 +43,13 @@
             android:layout_height="0.1dp"
             android:background="@color/color_divider" />
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
             <ListView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="300dp"
                 android:divider="@color/color_divider"
                 android:dividerHeight="0.1dp" />
@@ -57,10 +58,10 @@
                 android:id="@+id/avi"
                 style="@style/AVLoadingIndicatorView"
                 android:layout_width="wrap_content"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|center_horizontal|center_vertical"
                 android:layout_marginTop="20dp"
-                android:visibility="visible"
                 app:indicatorColor="@color/mediumPurple"
                 app:indicatorName="BallScaleMultipleIndicator" />
         </FrameLayout>

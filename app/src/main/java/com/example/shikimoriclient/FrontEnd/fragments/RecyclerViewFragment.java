@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.shikimoriclient.BackEnd.api.anime.Animes;
 import com.example.shikimoriclient.BackEnd.api.Api;
@@ -32,13 +33,13 @@ import retrofit2.Response;
 import static com.github.florent37.materialviewpager.MaterialViewPagerHelper.registerRecyclerView;
 
 public class RecyclerViewFragment extends android.support.v4.app.Fragment implements Updatable {
-
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
     private LinearLayoutManager layoutManager;
     private SearchFilter filter;
     private int type;
     private AVLoadingIndicatorView progressBar;
+    private TextView notFoundView;
 
     private static Bundle instanceBundle = new Bundle();
 
@@ -87,8 +88,11 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
 
     private void initializeComp(View view) {
         recyclerView = (view.findViewById(R.id.recyclerView));
+        progressBar = view.findViewById(R.id.avi);
+        notFoundView = view.findViewById(R.id.notFoundText);
         layoutManager = new GridLayoutManager(getContext(), 2);
         filter = new SearchFilter();
+        progressBar.show();
         Api.initalize();
         setCompConfiguration();
         setListeners();
@@ -104,6 +108,10 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
                     public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
                         recyclerAdapter = new RecyclerAdapter(response.body());
                         recyclerView.setAdapter(recyclerAdapter);
+                        progressBar.hide();
+                        if (recyclerAdapter.getItemCount() == 0) {
+                            notFoundView.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -121,6 +129,10 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
                     public void onResponse(Call<List<MangaSimple>> call, Response<List<MangaSimple>> response) {
                         recyclerAdapter = new RecyclerAdapter(response.body());
                         recyclerView.setAdapter(recyclerAdapter);
+                        progressBar.hide();
+                        if (recyclerAdapter.getItemCount() == 0) {
+                            notFoundView.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -138,6 +150,10 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
                     public void onResponse(Call<List<RanobeSimple>> call, Response<List<RanobeSimple>> response) {
                         recyclerAdapter = new RecyclerAdapter(response.body());
                         recyclerView.setAdapter(recyclerAdapter);
+                        progressBar.hide();
+                        if (recyclerAdapter.getItemCount() == 0) {
+                            notFoundView.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -240,6 +256,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
     @Override
     public void update(SearchFilter searchFilter) {
         filter = searchFilter;
+        notFoundView.setVisibility(View.INVISIBLE);
         initializeAdapter();
         pageNumber = 1;
         isLoading = true;

@@ -26,7 +26,6 @@ import java.util.List;
 
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
-
     private List<ItemSimple> itemsList;
     private boolean clicked = false;
 
@@ -49,7 +48,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         viewHolder.titleNameRus.setText(itemSimple.getRussian());
         Picasso.get().load(Api.baseURL + itemSimple.getImage().getOriginal()).into(viewHolder.titleImage);
         viewHolder.setItemClickListener((view, position, isLongClicK) -> {
-            if (!isLongClicK && !clicked) {
+            if (!clicked) {
                 clicked = true;
                 ItemSimple selectedItemSimple = itemsList.get(position);
                 ItemHandler itemHandler = null;
@@ -73,7 +72,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return itemsList.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView titleImage;
         TextView titleName;
         TextView titleNameRus;
@@ -89,18 +88,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             titleName = itemView.findViewById(R.id.title);
             titleNameRus = itemView.findViewById(R.id.title_rus);
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             itemClickListener.OnClick(v, getAdapterPosition(), false);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            itemClickListener.OnClick(v, getAdapterPosition(), true);
-            return true;
         }
     }
 

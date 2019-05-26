@@ -25,12 +25,11 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.example.shikimoriclient.FrontEnd.adapters.PagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.wang.avi.AVLoadingIndicatorView;
+
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,8 +39,13 @@ import java.util.List;
 
 import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
 
-//TODO: Status bar on RecyclerViews(on self and on imageViews)
-//TODO: Status bar in search list while result updating
+//TODO: "Нет результатов" View for SearchDialog
+//TODO: Replace +- in FilterDialog
+//TODO: Refactor DetailInfo screen
+//TODO: User sign-in and other stuff
+//TODO: Other visual
+//TODO: Try load fully info while first screen (extra)
+//TODO: A lot code review and
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,11 +60,9 @@ public class MainActivity extends AppCompatActivity
     private ViewPager viewPager;
     private SearchDialog searchDialog;
     private FilterDialog filterDialog;
-    private TabLayout tabLayout;
     private SearchFilter animeFilter;
     private SearchFilter mangaFilter;
     private SearchFilter ranobeFilter;
-    private AVLoadingIndicatorView progressbar;
 
     private static final int TAB_COUNT = 3;
 
@@ -83,9 +85,8 @@ public class MainActivity extends AppCompatActivity
         fabSearch = findViewById(R.id.fabSearch);
         fabBack = findViewById(R.id.fabBack);
         viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        progressbar = findViewById(R.id.avi);
         searchDialog = new SearchDialog(this, viewPager);
         filterDialog = new FilterDialog(this, viewPager);
         setCompConfiguration();
