@@ -24,11 +24,10 @@
 
     </group>
 
-    <group android:checkableBehavior="single"
-        >
+    <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/enter"
+            android:id="@+id/enter_exit"
             android:icon="@drawable/enter_exit"
             android:title="@string/enter" />
 

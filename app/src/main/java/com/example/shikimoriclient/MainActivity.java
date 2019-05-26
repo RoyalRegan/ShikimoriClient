@@ -1,5 +1,6 @@
 package com.example.shikimoriclient;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -25,8 +26,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.webkit.WebView;
 
 import com.example.shikimoriclient.FrontEnd.adapters.CustomFragmentStatePagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -39,10 +39,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
-
-//TODO: Status bar on RecyclerViews(on self and on imageViews)
-//TODO: Status bar in search list while result updating
-
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     private SearchFilter mangaFilter;
     private SearchFilter ranobeFilter;
     private AVLoadingIndicatorView progressbar;
+    private WebView web;
 
     private static final int TAB_COUNT = 3;
 
@@ -231,18 +228,33 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        /*int id = item.getItemId();
+        int id = item.getItemId();
 
-        if (id == R.id.nav_list) {
-
-        } else if (id == R.id.nav_checklist) {
-
-        } else if (id == R.id.nav_calendar) {
-
-        } else if (id == R.id.nav_notifications) {
+        if (id == R.id.name)
+        {
 
         }
-        drawerLayout.closeDrawer(GravityCompat.START);*/
+        else
+            if (id == R.id.nav_list)
+            {
+
+            }
+            else
+                if (id == R.id.nav_checklist)
+                {
+
+                }
+                else
+                    if (id == R.id.enter_exit)
+                    {
+                        Dialog auth_dialog;
+                        auth_dialog = new Dialog(MainActivity.this);
+                        auth_dialog.setContentView(R.layout.dialog_authorization);
+                        web = auth_dialog.findViewById(R.id.webv);
+                        web.loadUrl("file:///android_asset/index.html");
+                        auth_dialog.show();
+                    }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

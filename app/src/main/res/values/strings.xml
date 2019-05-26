@@ -116,5 +116,9 @@
     </string>
     <string name="title_activity_manga_details">MangaDetails</string>
     <string name="title_activity_ranobe_details">RanobeDetails</string>
+    <string name="rate">8.0</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
 
