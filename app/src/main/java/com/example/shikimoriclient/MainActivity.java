@@ -1,5 +1,6 @@
 package com.example.shikimoriclient;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -25,6 +26,8 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.shikimoriclient.FrontEnd.adapters.PagerAdapter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -40,13 +43,9 @@ import java.util.List;
 import static com.example.shikimoriclient.BackEnd.util.Util.updateAllRecycleView;
 import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
 
-//TODO: "Нет результатов" View for SearchDialog
-//TODO: Replace +- in FilterDialog
-//TODO: Refactor DetailInfo screen
-//TODO: User sign-in and other stuff
-//TODO: Other visual
-//TODO: Try load fully info while first screen (extra)
-//TODO: A lot code review and
+//TODO: Status bar on RecyclerViews(on self and on imageViews)
+//TODO: Status bar in search list while result updating
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -65,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     private SearchFilter animeFilter;
     private SearchFilter mangaFilter;
     private SearchFilter ranobeFilter;
+    private WebView web;
 
     private static final int TAB_COUNT = 3;
 
