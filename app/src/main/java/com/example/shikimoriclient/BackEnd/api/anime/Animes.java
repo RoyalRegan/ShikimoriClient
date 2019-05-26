@@ -8,13 +8,15 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 public interface Animes {
 
     @GET("animes")
-    Call<List<AnimeSimple>> getList(@QueryMap Map<String, String> params);
+    Call<List<AnimeSimple>> getList(@QueryMap Map<String, String> params, @Header("Authorization") String authorization);
 
     @GET("animes/{id}")
     Call<Anime> getAnime(@Path("id") int id);

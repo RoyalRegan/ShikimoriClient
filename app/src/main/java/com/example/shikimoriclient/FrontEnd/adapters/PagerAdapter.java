@@ -28,7 +28,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public int getItemPosition(Object object) {
         Updatable view = (Updatable) object;
         if (view != null) {
-            if (updateStatementTab == selectedTab) {
+            if (updateStatementTab == selectedTab || selectedTab == -1) {
                 view.update(searchFilter);
             }
             updateStatementTab++;

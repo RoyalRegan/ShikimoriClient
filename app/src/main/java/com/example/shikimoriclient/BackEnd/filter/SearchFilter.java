@@ -53,16 +53,24 @@ public class SearchFilter {
         }
     }
 
+    public boolean isFilterHas(String param) {
+        return params.get(param) != null;
+    }
+
     public HashMap<String, String> getParams() {
         if (filterAdapter != null) {
             String searchStr = params.get("search");
             String page = params.get("page");
+            String mylist = params.get("mylist");
             params.clear();
             if (searchStr != null) {
                 params.put("search", searchStr);
             }
             if (page != null) {
                 params.put("page", page);
+            }
+            if (mylist != null) {
+                params.put("mylist", mylist);
             }
             buildParamsByFilter();
         }

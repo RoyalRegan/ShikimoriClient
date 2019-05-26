@@ -37,6 +37,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.example.shikimoriclient.BackEnd.util.Util.updateAllRecycleView;
 import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
 
 //TODO: "Нет результатов" View for SearchDialog
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private Toolbar toolbar;
     private ActionBar actionBar;
     private FloatingActionsMenu fabMenu;
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        navigationView = findViewById(R.id.nav_view);
         actionBar = getSupportActionBar();
         fabMenu = findViewById(R.id.fabMenu);
         fabFilter = findViewById(R.id.fabFilter);
@@ -131,6 +134,8 @@ public class MainActivity extends AppCompatActivity
         }
         FilterAdapter ranobeFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Arrays.asList(2, 3));
         ranobeFilter = new SearchFilter(ranobeFilterAdapter, new SearchableRanobeData());
+
+        UserInfoHandler.Token = "Bearer a71ab24004368142aeba5ca152cfc8fdcc68b2c34b9f5e913b8d61243327f0b5";
     }
 
     private void setCompConfiguration() {
@@ -146,6 +151,7 @@ public class MainActivity extends AppCompatActivity
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayUseLogoEnabled(false);
         actionBar.setHomeButtonEnabled(true);
+        navigationView.getMenu().getItem(1).setChecked(true);
     }
 
     private void setListeners() {
@@ -197,17 +203,35 @@ public class MainActivity extends AppCompatActivity
         fabBack.setOnClickListener(view -> {
             switch (viewPager.getCurrentItem()) {
                 case 0: {
-                    animeFilter.rest();
+                    if (animeFilter.isFilterHas("mylist")) {
+                        String mylist = animeFilter.getParams().get("mylist");
+                        animeFilter.rest();
+                        animeFilter.setParam("mylist", mylist);
+                    } else {
+                        animeFilter.rest();
+                    }
                     updateRecycleView(viewPager, animeFilter);
                     break;
                 }
                 case 1: {
-                    mangaFilter.rest();
+                    if (mangaFilter.isFilterHas("mylist")) {
+                        String mylist = mangaFilter.getParams().get("mylist");
+                        mangaFilter.rest();
+                        mangaFilter.setParam("mylist", mylist);
+                    } else {
+                        mangaFilter.rest();
+                    }
                     updateRecycleView(viewPager, mangaFilter);
                     break;
                 }
                 case 2: {
-                    ranobeFilter.rest();
+                    if (ranobeFilter.isFilterHas("mylist")) {
+                        String mylist = ranobeFilter.getParams().get("mylist");
+                        ranobeFilter.rest();
+                        ranobeFilter.setParam("mylist", mylist);
+                    } else {
+                        ranobeFilter.rest();
+                    }
                     updateRecycleView(viewPager, ranobeFilter);
                     break;
                 }
@@ -235,18 +259,25 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        /*int id = item.getItemId();
+        int id = item.getItemId();
 
         if (id == R.id.nav_list) {
-
+            animeFilter.rest();
+            mangaFilter.rest();
+            ranobeFilter.rest();
+            updateAllRecycleView(viewPager, animeFilter);
         } else if (id == R.id.nav_checklist) {
-
-        } else if (id == R.id.nav_calendar) {
-
-        } else if (id == R.id.nav_notifications) {
+            animeFilter.rest();
+            animeFilter.setParam("mylist", "completed");
+            mangaFilter.rest();
+            mangaFilter.setParam("mylist", "completed");
+            ranobeFilter.rest();
+            ranobeFilter.setParam("mylist", "completed");
+            updateAllRecycleView(viewPager, animeFilter);
+        } else if (id == R.id.enter) {
 
         }
-        drawerLayout.closeDrawer(GravityCompat.START);*/
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

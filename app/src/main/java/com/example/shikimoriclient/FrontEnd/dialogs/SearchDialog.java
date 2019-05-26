@@ -22,6 +22,7 @@ import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
 import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
+import com.example.shikimoriclient.UserInfoHandler;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.Collections;
@@ -127,7 +128,12 @@ public class SearchDialog {
                                         case 0: {
                                             Animes api = Api.getAnimes();
                                             searchFilter.setParam("search", searchText);
-                                            Call<List<AnimeSimple>> call = api.getList(searchFilter.getParams());
+                                            Call<List<AnimeSimple>> call;
+                                            if (!searchFilter.isFilterHas("mylist")) {
+                                                call = api.getList(searchFilter.getParams(), null);
+                                            } else {
+                                                call = api.getList(searchFilter.getParams(), UserInfoHandler.Token);
+                                            }
                                             call.enqueue(new Callback<List<AnimeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                                 @Override
@@ -157,7 +163,12 @@ public class SearchDialog {
                                         case 1: {
                                             Mangas api = Api.getMangas();
                                             searchFilter.setParam("search", searchText);
-                                            Call<List<MangaSimple>> call = api.getList(searchFilter.getParams());
+                                            Call<List<MangaSimple>> call;
+                                            if (!searchFilter.isFilterHas("mylist")) {
+                                                call = api.getList(searchFilter.getParams(), null);
+                                            } else {
+                                                call = api.getList(searchFilter.getParams(), UserInfoHandler.Token);
+                                            }
                                             call.enqueue(new Callback<List<MangaSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                                 @Override
@@ -187,7 +198,12 @@ public class SearchDialog {
                                         case 2: {
                                             Ranobes api = Api.getRanobe();
                                             searchFilter.setParam("search", searchText);
-                                            Call<List<RanobeSimple>> call = api.getList(searchFilter.getParams());
+                                            Call<List<RanobeSimple>> call;
+                                            if (!searchFilter.isFilterHas("mylist")) {
+                                                call = api.getList(searchFilter.getParams(), null);
+                                            } else {
+                                                call = api.getList(searchFilter.getParams(), UserInfoHandler.Token);
+                                            }
                                             call.enqueue(new Callback<List<RanobeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                                 @Override

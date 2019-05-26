@@ -21,6 +21,7 @@ import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
 import com.example.shikimoriclient.FrontEnd.adapters.RecyclerAdapter;
+import com.example.shikimoriclient.UserInfoHandler;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -102,7 +103,12 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
         switch (type) {
             case 0: {
                 Animes api = Api.getAnimes();
-                Call<List<AnimeSimple>> call = api.getList(filter.getParams());
+                Call<List<AnimeSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<AnimeSimple>>() {
                     @Override
                     public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
@@ -123,7 +129,12 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             }
             case 1: {
                 Mangas api = Api.getMangas();
-                Call<List<MangaSimple>> call = api.getList(filter.getParams());
+                Call<List<MangaSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<MangaSimple>>() {
                     @Override
                     public void onResponse(Call<List<MangaSimple>> call, Response<List<MangaSimple>> response) {
@@ -144,7 +155,12 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             }
             case 2: {
                 Ranobes api = Api.getRanobe();
-                Call<List<RanobeSimple>> call = api.getList(filter.getParams());
+                Call<List<RanobeSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<RanobeSimple>>() {
                     @Override
                     public void onResponse(Call<List<RanobeSimple>> call, Response<List<RanobeSimple>> response) {
@@ -202,7 +218,12 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             case 0: {
                 Animes api = Api.getAnimes();
                 filter.setParam("page", Integer.toString(pageNumber));
-                Call<List<AnimeSimple>> call = api.getList(filter.getParams());
+                Call<List<AnimeSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<AnimeSimple>>() {
                     @Override
                     public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
@@ -219,7 +240,12 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             case 1: {
                 Mangas api = Api.getMangas();
                 filter.setParam("page", Integer.toString(pageNumber));
-                Call<List<MangaSimple>> call = api.getList(filter.getParams());
+                Call<List<MangaSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<MangaSimple>>() {
                     @Override
                     public void onResponse(Call<List<MangaSimple>> call, Response<List<MangaSimple>> response) {
@@ -236,7 +262,12 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             case 2: {
                 Ranobes api = Api.getRanobe();
                 filter.setParam("page", Integer.toString(pageNumber));
-                Call<List<RanobeSimple>> call = api.getList(filter.getParams());
+                Call<List<RanobeSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<RanobeSimple>>() {
                     @Override
                     public void onResponse(Call<List<RanobeSimple>> call, Response<List<RanobeSimple>> response) {
