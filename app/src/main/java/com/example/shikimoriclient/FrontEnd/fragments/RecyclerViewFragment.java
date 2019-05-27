@@ -77,7 +77,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.recycle_card, container, false);
+        return inflater.inflate(R.layout.recycle_fragment, container, false);
     }
 
     @Override

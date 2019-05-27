@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8c2376</color>
-    <color name="colorPrimaryDark">#3c0068</color>
-    <color name="colorAccent">#c2185b</color>
-    ////////////////////////////////////////////////
-    <color name="mediumPurple">#ba68c8</color>
+    <color name="colorPrimary">#70437e</color>
+    <color name="colorPrimaryDark">#10185a</color>
+    <color name="colorAccent">#e57373</color>
+    //////////////////////////////////////////////
+    <color name="action">#ffa4a2</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="pink">#ff5252</color>
+    <color name="gray">#424242</color>
+    <color name="pink">#e57373</color>
     <color name="purple">#6b1470</color>
     <color name="no_color">#00000000</color>
 
