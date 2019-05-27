@@ -18,12 +18,12 @@
         android:id="@+id/notFoundText"
         android:layout_width="205dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/recyclerView"
+        android:layout_alignBottom="@+id/swipeRefreshLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="103dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="103dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginBottom="645dp"
         android:fontFamily="@font/exo_2_l"
         android:gravity="center"
         android:text="@string/not_found"
@@ -31,8 +31,16 @@
         android:textSize="16sp"
         android:visibility="invisible" />
 
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:refreshColor="@color/colorPrimary">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    </com.baoyz.widget.PullRefreshLayout>
 </RelativeLayout>
