@@ -6,19 +6,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shikimoriclient.BackEnd.api.Api;
 import com.example.shikimoriclient.BackEnd.dao.anime.Anime;
+import com.example.shikimoriclient.FrontEnd.adapters.RecyclerAdapter;
 import com.example.shikimoriclient.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class AnimeDetails extends Fragment {
-    private TextView nameText;
+    //private TextView nameText;
     private TextView typeText;
     private TextView episodeCountText;
     private TextView durationText;
@@ -26,7 +31,6 @@ public class AnimeDetails extends Fragment {
     private TextView ratingText;
     private TextView genresText;
     private TextView desctiptionText;
-    private ImageView animeImage;
 
     private static Bundle instanceBundle = new Bundle();
 
@@ -54,7 +58,7 @@ public class AnimeDetails extends Fragment {
     }
 
     private void initializeComp(View view) {
-        nameText = view.findViewById(R.id.animeName);
+        //nameText = view.findViewById(R.id.animeName);
         typeText = view.findViewById(R.id.animeType);
         episodeCountText = view.findViewById(R.id.animeEpisodeCount);
         durationText = view.findViewById(R.id.animeDuration);
@@ -62,7 +66,7 @@ public class AnimeDetails extends Fragment {
         ratingText = view.findViewById(R.id.animeRating);
         genresText = view.findViewById(R.id.animeGenres);
         desctiptionText = view.findViewById(R.id.animeDescription);
-        animeImage = view.findViewById(R.id.animeImage);
+        //animeImage = view.findViewById(R.id.animeImage);
         setCompConfiguration();
         fillComp();
         setListeners();
@@ -74,7 +78,7 @@ public class AnimeDetails extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void fillComp() {
-        nameText.setText(anime.getName());
+        //nameText.setText(anime.getName());
         typeText.setText(anime.getKind().toString());
         episodeCountText.setText(Integer.toString(anime.getEpisodes()));
         durationText.setText(Integer.toString(anime.getDuration()));
@@ -87,7 +91,7 @@ public class AnimeDetails extends Fragment {
         genres.deleteCharAt(anime.getGenres().length - 1);
         genresText.setText(genres.toString());
         desctiptionText.setText(anime.getDescription().replaceAll("\\[.+]", ""));
-        Picasso.get().load(Api.baseURL + anime.getImage().getOriginal()).into(animeImage);
+        //Picasso.get().load(Api.baseURL + anime.getImage().getOriginal()).into(animeImage);
     }
 
     private void setCompConfiguration() {

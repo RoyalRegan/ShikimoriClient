@@ -9,9 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/card_margin"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="7dp"
         card_view:cardElevation="0dp"
-        card_view:cardCornerRadius="3dp">
+        card_view:cardCornerRadius="0dp">
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/avi"
@@ -32,7 +35,7 @@
             <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="234dp"
+                android:layout_height="203dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/card_image" />
 
@@ -41,23 +44,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/thumbnail"
-                android:paddingLeft="@dimen/album_title_padding"
+                android:fontFamily="@font/exo_2_thin"
+                android:paddingLeft="2dp"
                 android:paddingTop="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
                 android:text="@string/title"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/album_title" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/album_title"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/title_rus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
-                android:paddingLeft="@dimen/album_title_padding"
+                android:fontFamily="@font/exo_2_thin"
+                android:paddingLeft="2dp"
                 android:paddingRight="@dimen/album_title_padding"
                 android:paddingBottom="@dimen/songs_count_padding_bottom"
                 android:text="@string/titlerus"
-                android:textColor="@color/blue"
+                android:textColor="@color/black"
                 android:textSize="@dimen/songs_count" />
 
         </RelativeLayout>
