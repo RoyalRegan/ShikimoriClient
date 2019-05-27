@@ -15,7 +15,6 @@ public class SearchableAnimeData implements Searchable {
         status.add("released");
 
         List<String> type = new ArrayList<>();
-        type.add("tv");
         type.add("tv_48");
         type.add("tv_24");
         type.add("tv_13");
@@ -31,6 +30,14 @@ public class SearchableAnimeData implements Searchable {
         sort.add("name");
         sort.add("aired_on");
         sort.add("id");
+
+        List<String> myList = new ArrayList<>();
+        myList.add("planned");
+        myList.add("watching");
+        myList.add("rewatching");
+        myList.add("completed");
+        myList.add("on_hold");
+        myList.add("dropped");
 
         List<String> season = new ArrayList<>();
         season.add("summer_2019");
@@ -111,11 +118,12 @@ public class SearchableAnimeData implements Searchable {
         expandableListDetail.put(0, status);
         expandableListDetail.put(1, type);
         expandableListDetail.put(2, sort);
-        expandableListDetail.put(3, season);
-        expandableListDetail.put(4, genre);
-        expandableListDetail.put(5, censored);
-        expandableListDetail.put(6, duration);
-        expandableListDetail.put(7, score);
+        expandableListDetail.put(3, myList);
+        expandableListDetail.put(4, season);
+        expandableListDetail.put(5, genre);
+        expandableListDetail.put(6, censored);
+        expandableListDetail.put(7, duration);
+        expandableListDetail.put(8, score);
 
         return expandableListDetail;
     }
@@ -126,11 +134,12 @@ public class SearchableAnimeData implements Searchable {
         expandableListDetail.put(0, "status");
         expandableListDetail.put(1, "kind");
         expandableListDetail.put(2, "order");
-        expandableListDetail.put(3, "season");
-        expandableListDetail.put(4, "genre");
-        expandableListDetail.put(5, "rating");
-        expandableListDetail.put(6, "duration");
-        expandableListDetail.put(7, "score");
+        expandableListDetail.put(3, "mylist");
+        expandableListDetail.put(4, "season");
+        expandableListDetail.put(5, "genre");
+        expandableListDetail.put(6, "rating");
+        expandableListDetail.put(7, "duration");
+        expandableListDetail.put(8, "score");
         return expandableListDetail.get(id);
     }
 }

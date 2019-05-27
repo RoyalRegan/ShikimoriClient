@@ -44,9 +44,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int i) {
         ItemSimple itemSimple = itemsList.get(i);
-        viewHolder.titleName.setText(itemSimple.getName());
-        viewHolder.titleNameRus.setText(itemSimple.getRussian());
-        Picasso.get().load(Api.baseURL + itemSimple.getImage().getOriginal()).into(viewHolder.titleImage);
+        viewHolder.itemName.setText(itemSimple.getName());
+        viewHolder.itemNameRus.setText(itemSimple.getRussian());
+        Picasso.get().load(Api.baseURL + itemSimple.getImage().getOriginal()).into(viewHolder.itemImage);
         viewHolder.setItemClickListener((view, position, isLongClicK) -> {
             if (!clicked) {
                 clicked = true;
@@ -73,9 +73,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView titleImage;
-        TextView titleName;
-        TextView titleNameRus;
+        ImageView itemImage;
+        TextView itemName;
+        TextView itemNameRus;
         ItemClickListener itemClickListener;
 
         void setItemClickListener(ItemClickListener itemClickListener) {
@@ -84,9 +84,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleImage = itemView.findViewById(R.id.thumbnail);
-            titleName = itemView.findViewById(R.id.title);
-            titleNameRus = itemView.findViewById(R.id.title_rus);
+            itemImage = itemView.findViewById(R.id.thumbnail);
+            itemName = itemView.findViewById(R.id.title);
+            itemNameRus = itemView.findViewById(R.id.title_rus);
             itemView.setOnClickListener(this);
         }
 

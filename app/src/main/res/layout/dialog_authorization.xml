@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <com.example.shikimoriclient.FrontEnd.adapters.CustomWebView
+    <com.example.shikimoriclient.FrontEnd.views.CustomWebView
         android:id="@+id/webv"
         android:focusable="true"
         android:focusableInTouchMode="true"

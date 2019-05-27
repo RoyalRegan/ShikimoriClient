@@ -3,6 +3,7 @@ package com.example.shikimoriclient.BackEnd.dao.manga;
 import com.example.shikimoriclient.BackEnd.dao.Genre;
 import com.example.shikimoriclient.BackEnd.dao.ScoreRate;
 import com.example.shikimoriclient.BackEnd.dao.StatusRate;
+import com.example.shikimoriclient.BackEnd.dao.UserRate;
 import com.example.shikimoriclient.BackEnd.dao.anime.AnimeRating;
 import com.example.shikimoriclient.BackEnd.dao.anime.Screenshot;
 import com.example.shikimoriclient.BackEnd.dao.anime.Studio;
@@ -39,8 +40,8 @@ public class Manga extends MangaSimple implements Serializable {
     @SerializedName("rates_statuses_stats")
     private StatusRate[] ratesStatusesStats;
     @SerializedName("user_rate")
-    private String userRate;
-    /*private int[] publishers;*/
+    private UserRate userRate;
+    private Publisher[] publishers;
 
     public String[] getEnglish() {
         return english;
@@ -113,7 +114,7 @@ public class Manga extends MangaSimple implements Serializable {
         return ratesStatusesStats;
     }
 
-    public String getUserRate() {
+    public UserRate getUserRate() {
         return userRate;
     }
 

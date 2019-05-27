@@ -6,8 +6,10 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
+import com.example.shikimoriclient.MainActivity;
 import com.example.shikimoriclient.R;
 import com.example.shikimoriclient.FrontEnd.adapters.ExpandableListAdapter;
 import com.example.shikimoriclient.BackEnd.data.ExpandableListAnimeData;
@@ -34,7 +36,7 @@ public class FilterDialog {
 
     public FilterDialog(Activity activity, ViewPager viewPager) {
         this.activity = activity;
-        this.viewPager=viewPager;
+        this.viewPager = viewPager;
     }
 
     private void findByParams(SearchFilter searchFilter) {
@@ -60,13 +62,21 @@ public class FilterDialog {
     }
 
     private void setCompConfiguration() {
-        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(activity, expandableListTitle, expandableListDetail,searchFilter.getFilterAdapter());
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(activity, expandableListTitle, expandableListDetail, searchFilter.getFilterAdapter());
         expandableListView.setAdapter(expandableListAdapter);
     }
 
     private void setListeners() {
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-            searchFilter.getFilterAdapter().changeCondition(groupPosition, childPosition);
+            if (expandableListView.getExpandableListAdapter().getGroup(groupPosition).equals("СПИСОК")) {
+                if (MainActivity.loggedIn) {
+                    searchFilter.getFilterAdapter().changeCondition(groupPosition, childPosition);
+                } else {
+                    Toast.makeText(activity, "Войдите в аккаунт что бы получить достпук к собственным спискам", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                searchFilter.getFilterAdapter().changeCondition(groupPosition, childPosition);
+            }
             ((ExpandableListAdapter) expandableListView.getExpandableListAdapter()).notifyDataSetChanged();
             return false;
         });

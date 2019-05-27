@@ -6,16 +6,9 @@ import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.FrontEnd.adapters.PagerAdapter;
 
 public class Util {
-
     public static void updateRecycleView(ViewPager viewPager, SearchFilter searchFilter) {
         PagerAdapter adapter = (PagerAdapter) viewPager.getAdapter();
         adapter.setFilter(searchFilter);
         adapter.updateTab(viewPager.getCurrentItem());
-    }
-
-    public static void updateAllRecycleView(ViewPager viewPager, SearchFilter searchFilter) {
-        PagerAdapter adapter = (PagerAdapter) viewPager.getAdapter();
-        adapter.setFilter(searchFilter);
-        adapter.updateTab(-1);
     }
 }

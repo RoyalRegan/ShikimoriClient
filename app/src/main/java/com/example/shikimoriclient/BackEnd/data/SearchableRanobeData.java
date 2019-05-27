@@ -21,6 +21,14 @@ public class SearchableRanobeData implements Searchable {
         sort.add("aired_on");
         sort.add("id");
 
+        List<String> myList = new ArrayList<>();
+        myList.add("planned");
+        myList.add("watching");
+        myList.add("rewatching");
+        myList.add("completed");
+        myList.add("on_hold");
+        myList.add("dropped");
+
         List<String> season = new ArrayList<>();
         season.add("summer_2019");
         season.add("spring_2019");
@@ -86,9 +94,10 @@ public class SearchableRanobeData implements Searchable {
 
         expandableListDetail.put(0, status);
         expandableListDetail.put(1, sort);
-        expandableListDetail.put(2, season);
-        expandableListDetail.put(3, genre);
-        expandableListDetail.put(4, score);
+        expandableListDetail.put(2, myList);
+        expandableListDetail.put(3, season);
+        expandableListDetail.put(4, genre);
+        expandableListDetail.put(5, score);
 
         return expandableListDetail;
     }
@@ -98,9 +107,10 @@ public class SearchableRanobeData implements Searchable {
         LinkedHashMap<Integer, String> expandableListDetail = new LinkedHashMap<>();
         expandableListDetail.put(0, "status");
         expandableListDetail.put(1, "order");
-        expandableListDetail.put(2, "season");
-        expandableListDetail.put(3, "genre");
-        expandableListDetail.put(4, "score");
+        expandableListDetail.put(2, "mylist");
+        expandableListDetail.put(3, "season");
+        expandableListDetail.put(4, "genre");
+        expandableListDetail.put(5, "score");
         return expandableListDetail.get(id);
     }
 }

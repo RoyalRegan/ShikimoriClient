@@ -1,6 +1,5 @@
 package com.example.shikimoriclient;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.shikimoriclient.BackEnd.data.ExpandableListAnimeData;
 import com.example.shikimoriclient.BackEnd.data.ExpandableListMangaData;
@@ -33,20 +33,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.example.shikimoriclient.BackEnd.util.Util.updateAllRecycleView;
 import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
+import static com.example.shikimoriclient.UserInfoHandler.ACCESS_TOKEN;
+import static com.example.shikimoriclient.UserInfoHandler.CREATED_AT;
+import static com.example.shikimoriclient.UserInfoHandler.EXPIRES_IN;
+import static com.example.shikimoriclient.UserInfoHandler.REFRESH_TOKEN;
+import static com.example.shikimoriclient.UserInfoHandler.USER_ICON_URL;
+import static com.example.shikimoriclient.UserInfoHandler.USER_ID;
+import static com.example.shikimoriclient.UserInfoHandler.USER_NICKNAME;
 
 //TODO: Checking tokens
 //TODO: Icon into NavigationView
 //TODO: infoScreen
-//TODO: Delete text into searchScreen
-//TODO: Refactor Alot
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     private SearchFilter mangaFilter;
     private SearchFilter ranobeFilter;
 
-    private HashMap<String, String> userData;
+    public static boolean loggedIn;
 
     private static final int TAB_COUNT = 3;
 
@@ -96,7 +100,6 @@ public class MainActivity extends AppCompatActivity
         searchDialog = new SearchDialog(this, viewPager);
         filterDialog = new FilterDialog(this, viewPager);
         sigInDialog = new SigInDialog(this);
-        userData = new HashMap<>();
         setCompConfiguration();
         fillComp();
         setListeners();
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity
             childrensCount.add(expandableListDetail.get(expandableListTitle.get(i)).size());
         }
 
-        FilterAdapter animeFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Arrays.asList(3, 4));
+        FilterAdapter animeFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Collections.singletonList(2));
         animeFilter = new SearchFilter(animeFilterAdapter, new SearchableAnimeData());
 
         expandableListDetail = ExpandableListMangaData.getData();
@@ -128,7 +131,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < expandableListTitle.size(); i++) {
             childrensCount.add(expandableListDetail.get(expandableListTitle.get(i)).size());
         }
-        FilterAdapter mangaFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Arrays.asList(3, 4));
+        FilterAdapter mangaFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Collections.singletonList(2));
         mangaFilter = new SearchFilter(mangaFilterAdapter, new SearchableMangaData());
 
         expandableListDetail = ExpandableListRanobeData.getData();
@@ -137,14 +140,14 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < expandableListTitle.size(); i++) {
             childrensCount.add(expandableListDetail.get(expandableListTitle.get(i)).size());
         }
-        FilterAdapter ranobeFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Arrays.asList(2, 3));
+        FilterAdapter ranobeFilterAdapter = new FilterAdapter(expandableListTitle.size(), childrensCount, Collections.singletonList(1));
         ranobeFilter = new SearchFilter(ranobeFilterAdapter, new SearchableRanobeData());
         checkUserData();
     }
 
-    @SuppressLint("SimpleDateFormat")
     public void checkUserData() {
         File file = new File(getFilesDir(), "userInfo");
+        HashMap<String, String> userData = new HashMap<>();
         if (file.exists()) {
             try {
                 BufferedReader bis = new BufferedReader(new FileReader(file));
@@ -156,10 +159,13 @@ public class MainActivity extends AppCompatActivity
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            UserInfoHandler.Token = "Bearer " + userData.get("access_token");
-            //user_icon_url
-        } else {
-            navigationView.getMenu().getItem(0).setVisible(false);
+            USER_ID = userData.get("user_id");
+            USER_NICKNAME = userData.get("user_nickname");
+            USER_ICON_URL = userData.get("user_icon_url");
+            ACCESS_TOKEN = "Bearer " + userData.get("access_token");
+            REFRESH_TOKEN = userData.get("refresh_token");
+            CREATED_AT = userData.get("created_at");
+            EXPIRES_IN = userData.get("expires_in");
         }
         updateTabs();
     }
@@ -167,15 +173,16 @@ public class MainActivity extends AppCompatActivity
     private void updateTabs() {
         File file = new File(getFilesDir(), "userInfo");
         if (file.exists()) {
+            loggedIn = true;
             navigationView.getMenu().getItem(0).setVisible(true);
-            navigationView.getMenu().getItem(0).setTitle(userData.get("user_nickname"));
+            navigationView.getMenu().getItem(0).setTitle(USER_NICKNAME);
             // navigationView.getMenu().getItem(0).setIcon();
-            navigationView.getMenu().getItem(3).setTitle("Выйти");
+            navigationView.getMenu().getItem(4).setTitle("Выйти");
         } else {
+            loggedIn = false;
             navigationView.getMenu().getItem(0).setVisible(false);
-            navigationView.getMenu().getItem(3).setTitle("Войти");
+            navigationView.getMenu().getItem(4).setTitle("Войти");
         }
-        navigationView.getMenu().getItem(1).setChecked(true);
     }
 
     private void setCompConfiguration() {
@@ -243,35 +250,17 @@ public class MainActivity extends AppCompatActivity
         fabBack.setOnClickListener(view -> {
             switch (viewPager.getCurrentItem()) {
                 case 0: {
-                    if (animeFilter.isFilterHas("mylist")) {
-                        String mylist = animeFilter.getParams().get("mylist");
-                        animeFilter.rest();
-                        animeFilter.setParam("mylist", mylist);
-                    } else {
-                        animeFilter.rest();
-                    }
+                    animeFilter.rest();
                     updateRecycleView(viewPager, animeFilter);
                     break;
                 }
                 case 1: {
-                    if (mangaFilter.isFilterHas("mylist")) {
-                        String mylist = mangaFilter.getParams().get("mylist");
-                        mangaFilter.rest();
-                        mangaFilter.setParam("mylist", mylist);
-                    } else {
-                        mangaFilter.rest();
-                    }
+                    mangaFilter.rest();
                     updateRecycleView(viewPager, mangaFilter);
                     break;
                 }
                 case 2: {
-                    if (ranobeFilter.isFilterHas("mylist")) {
-                        String mylist = ranobeFilter.getParams().get("mylist");
-                        ranobeFilter.rest();
-                        ranobeFilter.setParam("mylist", mylist);
-                    } else {
-                        ranobeFilter.rest();
-                    }
+                    ranobeFilter.rest();
                     updateRecycleView(viewPager, ranobeFilter);
                     break;
                 }
@@ -301,30 +290,27 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_list) {
-            animeFilter.rest();
-            mangaFilter.rest();
-            ranobeFilter.rest();
-            updateAllRecycleView(viewPager, animeFilter);
-        } else if (id == R.id.nav_checklist) {
-            animeFilter.rest();
-            animeFilter.setParam("mylist", "completed");
-            mangaFilter.rest();
-            mangaFilter.setParam("mylist", "completed");
-            ranobeFilter.rest();
-            ranobeFilter.setParam("mylist", "completed");
-            updateAllRecycleView(viewPager, animeFilter);
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        } else if (id == R.id.calendar) {
+            Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show();
+            return false;
+        } else if (id == R.id.notification) {
+            Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show();
+            return false;
         } else if (id == R.id.enter_exit) {
-            if (item.getTitle() == "Войти") {
+            if (!loggedIn) {
                 sigInDialog.show();
-            }
-            if (item.getTitle() == "Выйти") {
+                updateTabs();
+            } else {
                 File file = new File(getFilesDir(), "userInfo");
                 file.delete();
                 updateTabs();
-                UserInfoHandler.Token = "";
+                ACCESS_TOKEN = null;
             }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return false;
         }
-        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

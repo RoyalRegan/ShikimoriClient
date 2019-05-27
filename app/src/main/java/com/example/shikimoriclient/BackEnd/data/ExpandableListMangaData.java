@@ -30,6 +30,14 @@ public class ExpandableListMangaData {
         sort.add("По дате выхода ");
         sort.add("По ID ");
 
+        List<String> list =new ArrayList<>();
+        list.add("Запланировано");
+        list.add("Читаю");
+        list.add("Перечитываю");
+        list.add("Прочитано");
+        list.add("Отложено");
+        list.add("Брошено");
+
         List<String> season = new ArrayList<>();
         season.add("Лето 2019 ");
         season.add("Весна 2019 ");
@@ -96,6 +104,7 @@ public class ExpandableListMangaData {
         data.put("СТАТУС", status);
         data.put("ТИП", type);
         data.put("СОРТИРОВКА", sort);
+        data.put("СПИСОК",list);
         data.put("СЕЗОН", season);
         data.put("ЖАНРЫ", genre);
         data.put("ОЦЕНКА", score);

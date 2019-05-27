@@ -1,6 +1,5 @@
 package com.example.shikimoriclient.FrontEnd.dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
@@ -14,7 +13,7 @@ import com.example.shikimoriclient.BackEnd.api.Api;
 import com.example.shikimoriclient.BackEnd.api.user.Users;
 import com.example.shikimoriclient.BackEnd.dao.user.User;
 import com.example.shikimoriclient.BackEnd.dao.user.UserCredentials;
-import com.example.shikimoriclient.FrontEnd.adapters.CustomWebView;
+import com.example.shikimoriclient.FrontEnd.views.CustomWebView;
 import com.example.shikimoriclient.MainActivity;
 import com.example.shikimoriclient.R;
 
@@ -49,7 +48,7 @@ public class SigInDialog {
         alertDialog.show();
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+
     private void initializeComp() {
         view = mainActivity.getLayoutInflater().inflate(R.layout.dialog_authorization, null);
         web = view.findViewById(R.id.webv);
