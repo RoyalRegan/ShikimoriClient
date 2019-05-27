@@ -1,12 +1,16 @@
 package com.example.shikimoriclient;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.shikimoriclient.BackEnd.dao.ItemSimple;
 import com.example.shikimoriclient.BackEnd.dao.anime.Anime;
@@ -14,14 +18,14 @@ import com.example.shikimoriclient.BackEnd.dao.manga.Manga;
 import com.example.shikimoriclient.FrontEnd.fragments.AnimeDetails;
 import com.example.shikimoriclient.FrontEnd.fragments.RanobeOrMangaDetails;
 
-//TODO: Fix interface
-//TODO: Add more info
 //TODO: Add similar(as context dialog like RecyclerViewFragment) and related(?)
 public class DetailInfo extends AppCompatActivity {
     private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     private FragmentManager myFragmentManager;
     private FragmentTransaction fragmentTransaction;
     private boolean animeType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,8 @@ public class DetailInfo extends AppCompatActivity {
     private void initializeComp() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         myFragmentManager = getSupportFragmentManager();
         fragmentTransaction = myFragmentManager
                 .beginTransaction();

@@ -74,7 +74,7 @@
                 android:layout_gravity="center|center_horizontal|center_vertical"
                 android:layout_marginTop="20dp"
                 app:indicatorColor="@color/mediumPurple"
-                app:indicatorName="BallScaleMultipleIndicator" />
+                app:indicatorName="BallScaleRippleIndicator" />
         </FrameLayout>
 
     </LinearLayout>
