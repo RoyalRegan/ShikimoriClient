@@ -10,9 +10,12 @@
         android:id="@+id/listTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/exo_2_l"
         android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textColor="@color/mediumPurple"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        android:textStyle="bold"
         tools:ignore="RtlSymmetry" />
 </LinearLayout>

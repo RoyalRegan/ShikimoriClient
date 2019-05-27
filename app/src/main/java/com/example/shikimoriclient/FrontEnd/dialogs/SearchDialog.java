@@ -86,7 +86,7 @@ public class SearchDialog {
     }
 
     private void initializeComp() {
-        view = activity.getLayoutInflater().inflate(R.layout.search_dialog_layout, null);
+        view = activity.getLayoutInflater().inflate(R.layout.search_dialog, null);
         listView = view.findViewById(R.id.list);
         searchBox = view.findViewById(R.id.searchBox);
         progressBar = view.findViewById(R.id.avi);

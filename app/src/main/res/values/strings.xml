@@ -6,7 +6,8 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     //////////////////////////////////////////////////////////////////////////
-    <string name="nav_header_title">Энциклопеция аниме и манги</string>
+    <string name="nav_header_title">Энциклопедия аниме и манги</string>
+    <string name="not_found">По вашему запросу ничего не найдено</string>
     <string name="checklist">Мои списки</string>
     <string name="exit">Выход</string>
     <string name="enter">Вход</string>
@@ -15,6 +16,7 @@
     <string name="calendar">Календарь</string>
     <string name="notification">Уведомления</string>
     <string name="yourshi">Your Shikimori</string>
+    <string name="shikimory">Shikimori</string>
     <string name="anime">Аниме</string>
     <string name="ranobe">Ранобе</string>
     <string name="manga">Манга</string>

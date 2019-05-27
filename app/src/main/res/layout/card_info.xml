@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -25,7 +26,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="30dp"
             android:layout_marginTop="63dp"
-            app:indicatorColor="@color/mediumPurple"
+            app:indicatorColor="@color/action"
             app:indicatorName="BallScaleMultipleIndicator" />
 
         <RelativeLayout
@@ -36,6 +37,7 @@
                 android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="203dp"
+                android:clickable="false"
                 android:scaleType="fitXY"
                 android:src="@drawable/card_image" />
 
@@ -44,27 +46,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/thumbnail"
-                android:fontFamily="@font/exo_2_thin"
+                android:clickable="false"
+                android:fontFamily="@font/alegreya_sans_s"
                 android:paddingLeft="2dp"
                 android:paddingTop="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
                 android:text="@string/title"
-                android:textColor="@color/black"
-                android:textSize="@dimen/album_title"
-                android:textStyle="bold" />
+                android:textColor="@color/gray"
+                android:textSize="@dimen/album_title" />
 
             <TextView
                 android:id="@+id/title_rus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
-                android:fontFamily="@font/exo_2_thin"
+                android:clickable="false"
+                android:fontFamily="@font/poiret_one"
                 android:paddingLeft="2dp"
                 android:paddingRight="@dimen/album_title_padding"
-                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:paddingBottom="5dp"
                 android:text="@string/titlerus"
                 android:textColor="@color/black"
-                android:textSize="@dimen/songs_count" />
+                android:textSize="13dp" />
 
         </RelativeLayout>
 
