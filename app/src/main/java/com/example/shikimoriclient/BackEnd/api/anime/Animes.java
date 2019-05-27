@@ -15,16 +15,16 @@ import retrofit2.http.QueryMap;
 
 public interface Animes {
 
-    @GET("animes")
+    @GET("/api/animes")
     Call<List<AnimeSimple>> getList(@QueryMap Map<String, String> params, @Header("Authorization") String authorization);
 
-    @GET("animes/{id}")
+    @GET("/api/animes/{id}")
     Call<Anime> getAnime(@Path("id") int id);
 
-    @GET("animes/{id}/similar")
+    @GET("/api/animes/{id}/similar")
     Call<List<AnimeSimple>> getSimilar(@Path("id") int id);
 
-    @GET("animes/{id}/related")
+    @GET("/api/animes/{id}/related")
     Call<List<AnimeSimple>> getRelated(@Path("id") int id);
 
 }

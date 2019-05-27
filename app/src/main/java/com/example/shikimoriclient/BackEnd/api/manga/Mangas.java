@@ -1,6 +1,5 @@
 package com.example.shikimoriclient.BackEnd.api.manga;
 
-import com.example.shikimoriclient.BackEnd.dao.anime.Anime;
 import com.example.shikimoriclient.BackEnd.dao.manga.Manga;
 import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
 
@@ -15,9 +14,9 @@ import retrofit2.http.QueryMap;
 
 public interface Mangas {
 
-    @GET("mangas")
+    @GET("/api/mangas")
     Call<List<MangaSimple>> getList(@QueryMap Map<String, String> params, @Header("Authorization") String authorization);
 
-    @GET("mangas/{id}")
+    @GET("/api/mangas/{id}")
     Call<Manga> getManga(@Path("id") int id);
 }

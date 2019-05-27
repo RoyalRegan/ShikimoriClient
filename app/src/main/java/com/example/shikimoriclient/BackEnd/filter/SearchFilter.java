@@ -20,6 +20,11 @@ public class SearchFilter {
         params = new HashMap<>();
     }
 
+    public SearchFilter(HashMap<String, String> params) {
+        this.params = new HashMap<>();
+        this.params.putAll(params);
+    }
+
     private void buildParamsByFilter() {
         for (FilterElement counter : filterAdapter.getCounter().keySet()) {
             if (filterAdapter.getCounter().get(new FilterElement(counter.getGroupId(), counter.getChildId())) == 1) {
@@ -35,6 +40,10 @@ public class SearchFilter {
 
     public void setParam(String param, String value) {
         params.put(param, value);
+    }
+
+    public void delParam(String param) {
+        params.remove(param);
     }
 
     private void setCombineParam(String param, String value, boolean subtract) {

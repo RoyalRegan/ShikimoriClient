@@ -13,6 +13,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.example.shikimoriclient.BackEnd.api.anime.Animes;
 import com.example.shikimoriclient.BackEnd.api.Api;
 import com.example.shikimoriclient.BackEnd.api.manga.Mangas;
@@ -45,9 +47,11 @@ public class SearchDialog {
     private ViewPager viewPager;
     private EditText searchBox;
     private ListView listView;
+    private TextView notFoundText;
     private ArrayAdapter<String> searchListAdapter;
 
     private SearchFilter searchFilter;
+    private SearchFilter namesFilter;
 
     public SearchDialog(Activity activity, ViewPager viewPager) {
         this.activity = activity;
@@ -56,6 +60,8 @@ public class SearchDialog {
 
     public void setFilter(SearchFilter searchFilter) {
         this.searchFilter = searchFilter;
+        namesFilter = new SearchFilter(searchFilter.getParams());
+        namesFilter.delParam("page");
     }
 
 
@@ -84,6 +90,7 @@ public class SearchDialog {
         listView = view.findViewById(R.id.list);
         searchBox = view.findViewById(R.id.searchBox);
         progressBar = view.findViewById(R.id.avi);
+        notFoundText = view.findViewById(R.id.notFoundText);
         setListeners();
     }
 
@@ -114,6 +121,7 @@ public class SearchDialog {
                 timer.cancel();
                 progressBar.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
+                notFoundText.setVisibility(View.GONE);
                 timer = new Timer();
                 timer.schedule(
                         new TimerTask() {
@@ -127,12 +135,12 @@ public class SearchDialog {
                                     switch (viewPager.getCurrentItem()) {
                                         case 0: {
                                             Animes api = Api.getAnimes();
-                                            searchFilter.setParam("search", searchText);
+                                            namesFilter.setParam("search", searchText);
                                             Call<List<AnimeSimple>> call;
-                                            if (!searchFilter.isFilterHas("mylist")) {
-                                                call = api.getList(searchFilter.getParams(), null);
+                                            if (!namesFilter.isFilterHas("mylist")) {
+                                                call = api.getList(namesFilter.getParams(), null);
                                             } else {
-                                                call = api.getList(searchFilter.getParams(), UserInfoHandler.Token);
+                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.Token);
                                             }
                                             call.enqueue(new Callback<List<AnimeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -150,6 +158,9 @@ public class SearchDialog {
                                                         listView.setAdapter(searchListAdapter);
                                                         progressBar.hide();
                                                         listView.setVisibility(View.VISIBLE);
+                                                        if (findLists.isEmpty()) {
+                                                            notFoundText.setVisibility(View.VISIBLE);
+                                                        }
                                                     }
                                                 }
 
@@ -162,12 +173,12 @@ public class SearchDialog {
                                         }
                                         case 1: {
                                             Mangas api = Api.getMangas();
-                                            searchFilter.setParam("search", searchText);
+                                            namesFilter.setParam("search", searchText);
                                             Call<List<MangaSimple>> call;
-                                            if (!searchFilter.isFilterHas("mylist")) {
-                                                call = api.getList(searchFilter.getParams(), null);
+                                            if (!namesFilter.isFilterHas("mylist")) {
+                                                call = api.getList(namesFilter.getParams(), null);
                                             } else {
-                                                call = api.getList(searchFilter.getParams(), UserInfoHandler.Token);
+                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.Token);
                                             }
                                             call.enqueue(new Callback<List<MangaSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -185,6 +196,9 @@ public class SearchDialog {
                                                         listView.setAdapter(searchListAdapter);
                                                         progressBar.hide();
                                                         listView.setVisibility(View.VISIBLE);
+                                                        if (findLists.isEmpty()) {
+                                                            notFoundText.setVisibility(View.VISIBLE);
+                                                        }
                                                     }
                                                 }
 
@@ -197,12 +211,12 @@ public class SearchDialog {
                                         }
                                         case 2: {
                                             Ranobes api = Api.getRanobe();
-                                            searchFilter.setParam("search", searchText);
+                                            namesFilter.setParam("search", searchText);
                                             Call<List<RanobeSimple>> call;
-                                            if (!searchFilter.isFilterHas("mylist")) {
-                                                call = api.getList(searchFilter.getParams(), null);
+                                            if (!namesFilter.isFilterHas("mylist")) {
+                                                call = api.getList(namesFilter.getParams(), null);
                                             } else {
-                                                call = api.getList(searchFilter.getParams(), UserInfoHandler.Token);
+                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.Token);
                                             }
                                             call.enqueue(new Callback<List<RanobeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -220,6 +234,9 @@ public class SearchDialog {
                                                         listView.setAdapter(searchListAdapter);
                                                         progressBar.hide();
                                                         listView.setVisibility(View.VISIBLE);
+                                                        if (findLists.isEmpty()) {
+                                                            notFoundText.setVisibility(View.VISIBLE);
+                                                        }
                                                     }
                                                 }
 
