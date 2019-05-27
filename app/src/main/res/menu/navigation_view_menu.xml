@@ -19,9 +19,13 @@
             android:icon="@drawable/list"
             android:title="@string/list" />
         <item
-            android:id="@+id/nav_checklist"
-            android:icon="@drawable/checklist"
-            android:title="@string/checklist" />
+            android:id="@+id/calendar"
+            android:icon="@drawable/calendar"
+            android:title="@string/calendar" />
+        <item
+            android:id="@+id/notification"
+            android:icon="@drawable/alarm"
+            android:title="@string/notification" />
 
     </group>
 

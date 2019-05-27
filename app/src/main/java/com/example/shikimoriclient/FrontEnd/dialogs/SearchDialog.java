@@ -128,7 +128,6 @@ public class SearchDialog {
                             @Override
                             public void run() {
                                 progressBar.show();
-                                Api.initalize();
                                 List<String> findLists = new LinkedList<>();
                                 String searchText = searchBox.getText().toString();
                                 if (!searchText.equals("")) {
@@ -137,10 +136,10 @@ public class SearchDialog {
                                             Animes api = Api.getAnimes();
                                             namesFilter.setParam("search", searchText);
                                             Call<List<AnimeSimple>> call;
-                                            if (!namesFilter.isFilterHas("mylist")) {
+                                            if (namesFilter.isParamNotExist("mylist")) {
                                                 call = api.getList(namesFilter.getParams(), null);
                                             } else {
-                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.Token);
+                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.ACCESS_TOKEN);
                                             }
                                             call.enqueue(new Callback<List<AnimeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -175,10 +174,10 @@ public class SearchDialog {
                                             Mangas api = Api.getMangas();
                                             namesFilter.setParam("search", searchText);
                                             Call<List<MangaSimple>> call;
-                                            if (!namesFilter.isFilterHas("mylist")) {
+                                            if (namesFilter.isParamNotExist("mylist")) {
                                                 call = api.getList(namesFilter.getParams(), null);
                                             } else {
-                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.Token);
+                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.ACCESS_TOKEN);
                                             }
                                             call.enqueue(new Callback<List<MangaSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -213,10 +212,10 @@ public class SearchDialog {
                                             Ranobes api = Api.getRanobe();
                                             namesFilter.setParam("search", searchText);
                                             Call<List<RanobeSimple>> call;
-                                            if (!namesFilter.isFilterHas("mylist")) {
+                                            if (namesFilter.isParamNotExist("mylist")) {
                                                 call = api.getList(namesFilter.getParams(), null);
                                             } else {
-                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.Token);
+                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.ACCESS_TOKEN);
                                             }
                                             call.enqueue(new Callback<List<RanobeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -264,11 +263,9 @@ public class SearchDialog {
         searchBox.setOnEditorActionListener((v, actionId, event) -> {
             boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                if (!searchBox.getText().toString().equals("")) {
-                    searchByString(searchBox.getText().toString());
-                    alertDialog.dismiss();
-                    handled = true;
-                }
+                searchByString(searchBox.getText().toString());
+                alertDialog.dismiss();
+                handled = true;
             }
             return handled;
         });

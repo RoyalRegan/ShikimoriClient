@@ -1,4 +1,4 @@
-package com.example.shikimoriclient.FrontEnd.adapters;
+package com.example.shikimoriclient.FrontEnd.views;
 
 import android.content.Context;
 import android.os.Build;
@@ -51,5 +51,4 @@ public class CustomWebView extends WebView {
     public boolean onCheckIsTextEditor() {
         return true;
     }
-
 }

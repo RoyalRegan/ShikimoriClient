@@ -28,6 +28,14 @@ public class SearchableMangaData implements Searchable {
         sort.add("aired_on");
         sort.add("id");
 
+        List<String> myList = new ArrayList<>();
+        myList.add("planned");
+        myList.add("watching");
+        myList.add("rewatching");
+        myList.add("completed");
+        myList.add("on_hold");
+        myList.add("dropped");
+
         List<String> season = new ArrayList<>();
         season.add("summer_2019");
         season.add("spring_2019");
@@ -94,9 +102,10 @@ public class SearchableMangaData implements Searchable {
         expandableListDetail.put(0, status);
         expandableListDetail.put(1, type);
         expandableListDetail.put(2, sort);
-        expandableListDetail.put(3, season);
-        expandableListDetail.put(4, genre);
-        expandableListDetail.put(5, score);
+        expandableListDetail.put(3,myList);
+        expandableListDetail.put(4, season);
+        expandableListDetail.put(5, genre);
+        expandableListDetail.put(6, score);
 
         return expandableListDetail;
     }
@@ -107,9 +116,10 @@ public class SearchableMangaData implements Searchable {
         expandableListDetail.put(0, "status");
         expandableListDetail.put(1, "kind");
         expandableListDetail.put(2, "order");
-        expandableListDetail.put(3, "season");
-        expandableListDetail.put(4, "genre");
-        expandableListDetail.put(5, "score");
+        expandableListDetail.put(3, "mylist");
+        expandableListDetail.put(4, "season");
+        expandableListDetail.put(5, "genre");
+        expandableListDetail.put(6, "score");
         return expandableListDetail.get(id);
     }
 }

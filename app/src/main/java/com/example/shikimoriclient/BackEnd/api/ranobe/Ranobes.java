@@ -1,6 +1,5 @@
 package com.example.shikimoriclient.BackEnd.api.ranobe;
 
-import com.example.shikimoriclient.BackEnd.dao.manga.Manga;
 import com.example.shikimoriclient.BackEnd.dao.ranobe.Ranobe;
 import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 

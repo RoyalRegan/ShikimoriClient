@@ -3,6 +3,7 @@ package com.example.shikimoriclient.BackEnd.dao.anime;
 import com.example.shikimoriclient.BackEnd.dao.Genre;
 import com.example.shikimoriclient.BackEnd.dao.ScoreRate;
 import com.example.shikimoriclient.BackEnd.dao.StatusRate;
+import com.example.shikimoriclient.BackEnd.dao.UserRate;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -44,7 +45,7 @@ public class Anime extends AnimeSimple implements Serializable {
     private Video[] videos;
     private Screenshot[] screenshots;
     @SerializedName("user_rate")
-    private String userRate;
+    private UserRate userRate;
 
     public AnimeRating getRating() {
         return rating;
@@ -149,7 +150,7 @@ public class Anime extends AnimeSimple implements Serializable {
         return screenshots;
     }
 
-    public String getUserRate() {
+    public UserRate getUserRate() {
         return userRate;
     }
 }

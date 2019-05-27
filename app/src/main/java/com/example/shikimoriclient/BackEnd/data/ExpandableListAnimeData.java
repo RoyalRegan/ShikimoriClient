@@ -8,7 +8,7 @@ public class ExpandableListAnimeData {
     private static LinkedHashMap<String, List<String>> data;
 
     static {
-        data=new LinkedHashMap<>();
+        data = new LinkedHashMap<>();
 
         List<String> status = new ArrayList<>();
         status.add("Анонсировано ");
@@ -31,6 +31,14 @@ public class ExpandableListAnimeData {
         sort.add("По алфавиту ");
         sort.add("По дате выхода ");
         sort.add("По ID ");
+
+        List<String> list = new ArrayList<>();
+        list.add("Запланировано");
+        list.add("Смотрю");
+        list.add("Пересматриваю");
+        list.add("Просмотрено");
+        list.add("Отложено");
+        list.add("Брошено");
 
         List<String> season = new ArrayList<>();
         season.add("Лето 2019 ");
@@ -111,6 +119,7 @@ public class ExpandableListAnimeData {
         data.put("СТАТУС", status);
         data.put("ТИП", type);
         data.put("СОРТИРОВКА", sort);
+        data.put("СПИСОК", list);
         data.put("СЕЗОН", season);
         data.put("ЖАНРЫ", genre);
         data.put("РЕЙТИНГ", censored);

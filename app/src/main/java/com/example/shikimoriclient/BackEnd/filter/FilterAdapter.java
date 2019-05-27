@@ -1,13 +1,5 @@
 package com.example.shikimoriclient.BackEnd.filter;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
-import android.view.View;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
-
-import com.example.shikimoriclient.R;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -32,7 +24,7 @@ public class FilterAdapter {
     }
 
     public int changeCondition(int groupId, int childId) {
-        if (!uniqueGroup.contains(groupId)) {
+        if (uniqueGroup.contains(groupId)) {
             List<FilterElement> uniqCounter = new LinkedList<>();
             for (FilterElement counter : filterConditions.keySet()) {
                 if (counter.getGroupId() == groupId && counter.getChildId() != childId) {
