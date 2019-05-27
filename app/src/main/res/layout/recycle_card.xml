@@ -1,7 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/recyclerView"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    />
+    android:layout_height="match_parent">
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi"
+        style="@style/AVLoadingIndicatorView"
+        android:layout_width="146dp"
+        android:layout_height="117dp"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="109dp"
+        android:visibility="gone"
+        app:indicatorColor="@color/mediumPurple"
+        app:indicatorName="BallScaleRippleIndicator" />
+
+    <TextView
+        android:id="@+id/notFoundText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/recyclerView"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="140dp"
+        android:text="По вашему запросу ничего не найдено"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:visibility="invisible" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

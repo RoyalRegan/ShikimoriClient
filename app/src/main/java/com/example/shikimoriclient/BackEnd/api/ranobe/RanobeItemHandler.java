@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.shikimoriclient.BackEnd.api.Api;
-import com.example.shikimoriclient.BackEnd.api.Handler;
+import com.example.shikimoriclient.BackEnd.api.ItemHandler;
 import com.example.shikimoriclient.BackEnd.dao.ranobe.Ranobe;
 import com.example.shikimoriclient.DetailInfo;
 
@@ -12,7 +12,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RanobeHandler implements Handler {
+public class RanobeItemHandler implements ItemHandler {
 
     @Override
     public void findById(int id, Context context) {

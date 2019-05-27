@@ -9,13 +9,13 @@ import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.FrontEnd.fragments.RecyclerViewFragment;
 import com.example.shikimoriclient.FrontEnd.fragments.Updatable;
 
-public class CustomFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
+public class PagerAdapter extends FragmentStatePagerAdapter {
     private final int TAB_COUNT;
     private SearchFilter searchFilter;
     private int selectedTab;
     private int updateStatementTab = 0;
 
-    public CustomFragmentStatePagerAdapter(FragmentManager fm, int tabCount) {
+    public PagerAdapter(FragmentManager fm, int tabCount) {
         super(fm);
         TAB_COUNT = tabCount;
     }
@@ -28,7 +28,7 @@ public class CustomFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     public int getItemPosition(Object object) {
         Updatable view = (Updatable) object;
         if (view != null) {
-            if (updateStatementTab == selectedTab) {
+            if (updateStatementTab == selectedTab || selectedTab == -1) {
                 view.update(searchFilter);
             }
             updateStatementTab++;

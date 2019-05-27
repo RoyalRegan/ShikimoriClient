@@ -20,7 +20,7 @@ public class Player {
                         .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
                         .header("Accept-Language", "ru-RU,ru;q=0.9,en-US;q=0.8;q=0.7")
                         .header("Connection", "keep-alive")
-                        .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.56 (KHTML, like Gecko) Chrome" +
+                        .header("Users-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.56 (KHTML, like Gecko) Chrome" +
                                 "/71.0.3578.98 Safari/537.36");
 
                 Request request = requestBuilder.build();

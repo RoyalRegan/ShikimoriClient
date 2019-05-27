@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.shikimoriclient.BackEnd.api.anime.Animes;
 import com.example.shikimoriclient.BackEnd.api.Api;
@@ -20,7 +21,7 @@ import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
 import com.example.shikimoriclient.FrontEnd.adapters.RecyclerAdapter;
-import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.example.shikimoriclient.UserInfoHandler;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -33,13 +34,13 @@ import retrofit2.Response;
 import static com.github.florent37.materialviewpager.MaterialViewPagerHelper.registerRecyclerView;
 
 public class RecyclerViewFragment extends android.support.v4.app.Fragment implements Updatable {
-
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
     private LinearLayoutManager layoutManager;
     private SearchFilter filter;
     private int type;
     private AVLoadingIndicatorView progressBar;
+    private TextView notFoundView;
 
     private static Bundle instanceBundle = new Bundle();
 
@@ -88,8 +89,11 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
 
     private void initializeComp(View view) {
         recyclerView = (view.findViewById(R.id.recyclerView));
+        progressBar = view.findViewById(R.id.avi);
+        notFoundView = view.findViewById(R.id.notFoundText);
         layoutManager = new GridLayoutManager(getContext(), 2);
         filter = new SearchFilter();
+        progressBar.show();
         Api.initalize();
         setCompConfiguration();
         setListeners();
@@ -99,12 +103,21 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
         switch (type) {
             case 0: {
                 Animes api = Api.getAnimes();
-                Call<List<AnimeSimple>> call = api.getList(filter.getParams());
+                Call<List<AnimeSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<AnimeSimple>>() {
                     @Override
                     public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
                         recyclerAdapter = new RecyclerAdapter(response.body());
                         recyclerView.setAdapter(recyclerAdapter);
+                        progressBar.hide();
+                        if (recyclerAdapter.getItemCount() == 0) {
+                            notFoundView.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -116,12 +129,21 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             }
             case 1: {
                 Mangas api = Api.getMangas();
-                Call<List<MangaSimple>> call = api.getList(filter.getParams());
+                Call<List<MangaSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<MangaSimple>>() {
                     @Override
                     public void onResponse(Call<List<MangaSimple>> call, Response<List<MangaSimple>> response) {
                         recyclerAdapter = new RecyclerAdapter(response.body());
                         recyclerView.setAdapter(recyclerAdapter);
+                        progressBar.hide();
+                        if (recyclerAdapter.getItemCount() == 0) {
+                            notFoundView.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -133,12 +155,21 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             }
             case 2: {
                 Ranobes api = Api.getRanobe();
-                Call<List<RanobeSimple>> call = api.getList(filter.getParams());
+                Call<List<RanobeSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<RanobeSimple>>() {
                     @Override
                     public void onResponse(Call<List<RanobeSimple>> call, Response<List<RanobeSimple>> response) {
                         recyclerAdapter = new RecyclerAdapter(response.body());
                         recyclerView.setAdapter(recyclerAdapter);
+                        progressBar.hide();
+                        if (recyclerAdapter.getItemCount() == 0) {
+                            notFoundView.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -187,7 +218,12 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             case 0: {
                 Animes api = Api.getAnimes();
                 filter.setParam("page", Integer.toString(pageNumber));
-                Call<List<AnimeSimple>> call = api.getList(filter.getParams());
+                Call<List<AnimeSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<AnimeSimple>>() {
                     @Override
                     public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
@@ -204,7 +240,12 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             case 1: {
                 Mangas api = Api.getMangas();
                 filter.setParam("page", Integer.toString(pageNumber));
-                Call<List<MangaSimple>> call = api.getList(filter.getParams());
+                Call<List<MangaSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<MangaSimple>>() {
                     @Override
                     public void onResponse(Call<List<MangaSimple>> call, Response<List<MangaSimple>> response) {
@@ -221,7 +262,12 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
             case 2: {
                 Ranobes api = Api.getRanobe();
                 filter.setParam("page", Integer.toString(pageNumber));
-                Call<List<RanobeSimple>> call = api.getList(filter.getParams());
+                Call<List<RanobeSimple>> call;
+                if (!filter.isFilterHas("mylist")) {
+                    call = api.getList(filter.getParams(), null);
+                } else {
+                    call = api.getList(filter.getParams(), UserInfoHandler.Token);
+                }
                 call.enqueue(new Callback<List<RanobeSimple>>() {
                     @Override
                     public void onResponse(Call<List<RanobeSimple>> call, Response<List<RanobeSimple>> response) {
@@ -241,6 +287,7 @@ public class RecyclerViewFragment extends android.support.v4.app.Fragment implem
     @Override
     public void update(SearchFilter searchFilter) {
         filter = searchFilter;
+        notFoundView.setVisibility(View.INVISIBLE);
         initializeAdapter();
         pageNumber = 1;
         isLoading = true;

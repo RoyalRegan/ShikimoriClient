@@ -13,6 +13,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.example.shikimoriclient.BackEnd.api.anime.Animes;
 import com.example.shikimoriclient.BackEnd.api.Api;
 import com.example.shikimoriclient.BackEnd.api.manga.Mangas;
@@ -22,6 +24,8 @@ import com.example.shikimoriclient.BackEnd.dao.manga.MangaSimple;
 import com.example.shikimoriclient.BackEnd.dao.ranobe.RanobeSimple;
 import com.example.shikimoriclient.BackEnd.filter.SearchFilter;
 import com.example.shikimoriclient.R;
+import com.example.shikimoriclient.UserInfoHandler;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -36,15 +40,18 @@ import retrofit2.Response;
 import static com.example.shikimoriclient.BackEnd.util.Util.updateRecycleView;
 
 public class SearchDialog {
+    private AVLoadingIndicatorView progressBar;
     private Activity activity;
     private View view;
     private AlertDialog alertDialog;
     private ViewPager viewPager;
     private EditText searchBox;
     private ListView listView;
+    private TextView notFoundText;
     private ArrayAdapter<String> searchListAdapter;
 
     private SearchFilter searchFilter;
+    private SearchFilter namesFilter;
 
     public SearchDialog(Activity activity, ViewPager viewPager) {
         this.activity = activity;
@@ -53,17 +60,24 @@ public class SearchDialog {
 
     public void setFilter(SearchFilter searchFilter) {
         this.searchFilter = searchFilter;
+        namesFilter = new SearchFilter(searchFilter.getParams());
+        namesFilter.delParam("page");
     }
 
 
     private void searchByString(String str) {
         searchFilter.setParam("search", str);
-        updateRecycleView( viewPager, searchFilter);
+        updateRecycleView(viewPager, searchFilter);
     }
 
     public void show() {
         final AlertDialog.Builder adb = new AlertDialog.Builder(activity);
         initializeComp();
+        String searchText = searchFilter.getParams().get("search");
+        if (searchText != null) {
+            searchBox.setText(searchFilter.getParams().get("search"));
+            searchBox.setSelection(searchBox.getText().length());
+        }
         adb.setView(view);
         alertDialog = adb.create();
         alertDialog.setCancelable(true);
@@ -75,6 +89,8 @@ public class SearchDialog {
         view = activity.getLayoutInflater().inflate(R.layout.search_dialog_layout, null);
         listView = view.findViewById(R.id.list);
         searchBox = view.findViewById(R.id.searchBox);
+        progressBar = view.findViewById(R.id.avi);
+        notFoundText = view.findViewById(R.id.notFoundText);
         setListeners();
     }
 
@@ -90,7 +106,7 @@ public class SearchDialog {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                progressBar.show();
             }
 
             @Override
@@ -103,11 +119,15 @@ public class SearchDialog {
             @Override
             public void afterTextChanged(Editable editable) {
                 timer.cancel();
+                progressBar.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+                notFoundText.setVisibility(View.GONE);
                 timer = new Timer();
                 timer.schedule(
                         new TimerTask() {
                             @Override
                             public void run() {
+                                progressBar.show();
                                 Api.initalize();
                                 List<String> findLists = new LinkedList<>();
                                 String searchText = searchBox.getText().toString();
@@ -115,26 +135,32 @@ public class SearchDialog {
                                     switch (viewPager.getCurrentItem()) {
                                         case 0: {
                                             Animes api = Api.getAnimes();
-                                            searchFilter.setParam("search", searchText);
-                                            Call<List<AnimeSimple>> call = api.getList(searchFilter.getParams());
+                                            namesFilter.setParam("search", searchText);
+                                            Call<List<AnimeSimple>> call;
+                                            if (!namesFilter.isFilterHas("mylist")) {
+                                                call = api.getList(namesFilter.getParams(), null);
+                                            } else {
+                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.Token);
+                                            }
                                             call.enqueue(new Callback<List<AnimeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                                 @Override
                                                 public void onResponse(Call<List<AnimeSimple>> call, Response<List<AnimeSimple>> response) {
                                                     if (response.body() != null) {
-                                                        if (searchText.matches("[A-z0-9]*")) {
-                                                            for (AnimeSimple anime : response.body()) {
+                                                        for (AnimeSimple anime : response.body()) {
+                                                            if (anime.getRussian() != null) {
+                                                                findLists.add(anime.getRussian());
+                                                            } else {
                                                                 findLists.add(anime.getName());
                                                             }
-                                                        } else {
-                                                            if (searchText.matches("[А-яЁё0-9]*")) {
-                                                                for (AnimeSimple anime : response.body()) {
-                                                                    findLists.add(anime.getRussian());
-                                                                }
-                                                            }
                                                         }
-                                                        searchListAdapter = new ArrayAdapter<>(activity, R.layout.items_view_layout, R.id.text1, findLists);
+                                                        searchListAdapter = new ArrayAdapter<>(activity, R.layout.search_list_item, R.id.search_list_text, findLists);
                                                         listView.setAdapter(searchListAdapter);
+                                                        progressBar.hide();
+                                                        listView.setVisibility(View.VISIBLE);
+                                                        if (findLists.isEmpty()) {
+                                                            notFoundText.setVisibility(View.VISIBLE);
+                                                        }
                                                     }
                                                 }
 
@@ -147,26 +173,32 @@ public class SearchDialog {
                                         }
                                         case 1: {
                                             Mangas api = Api.getMangas();
-                                            searchFilter.setParam("search", searchText);
-                                            Call<List<MangaSimple>> call = api.getList(searchFilter.getParams());
+                                            namesFilter.setParam("search", searchText);
+                                            Call<List<MangaSimple>> call;
+                                            if (!namesFilter.isFilterHas("mylist")) {
+                                                call = api.getList(namesFilter.getParams(), null);
+                                            } else {
+                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.Token);
+                                            }
                                             call.enqueue(new Callback<List<MangaSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                                 @Override
                                                 public void onResponse(Call<List<MangaSimple>> call, Response<List<MangaSimple>> response) {
                                                     if (response.body() != null) {
-                                                        if (searchText.matches("[A-z0-9]*")) {
-                                                            for (MangaSimple manga : response.body()) {
+                                                        for (MangaSimple manga : response.body()) {
+                                                            if (manga.getRussian() != null) {
+                                                                findLists.add(manga.getRussian());
+                                                            } else {
                                                                 findLists.add(manga.getName());
                                                             }
-                                                        } else {
-                                                            if (searchText.matches("[А-яЁё0-9]*")) {
-                                                                for (MangaSimple manga : response.body()) {
-                                                                    findLists.add(manga.getRussian());
-                                                                }
-                                                            }
                                                         }
-                                                        searchListAdapter = new ArrayAdapter<>(activity, R.layout.items_view_layout, R.id.text1, findLists);
+                                                        searchListAdapter = new ArrayAdapter<>(activity, R.layout.search_list_item, R.id.search_list_text, findLists);
                                                         listView.setAdapter(searchListAdapter);
+                                                        progressBar.hide();
+                                                        listView.setVisibility(View.VISIBLE);
+                                                        if (findLists.isEmpty()) {
+                                                            notFoundText.setVisibility(View.VISIBLE);
+                                                        }
                                                     }
                                                 }
 
@@ -179,26 +211,32 @@ public class SearchDialog {
                                         }
                                         case 2: {
                                             Ranobes api = Api.getRanobe();
-                                            searchFilter.setParam("search", searchText);
-                                            Call<List<RanobeSimple>> call = api.getList(searchFilter.getParams());
+                                            namesFilter.setParam("search", searchText);
+                                            Call<List<RanobeSimple>> call;
+                                            if (!namesFilter.isFilterHas("mylist")) {
+                                                call = api.getList(namesFilter.getParams(), null);
+                                            } else {
+                                                call = api.getList(namesFilter.getParams(), UserInfoHandler.Token);
+                                            }
                                             call.enqueue(new Callback<List<RanobeSimple>>() {
                                                 @RequiresApi(api = Build.VERSION_CODES.N)
                                                 @Override
                                                 public void onResponse(Call<List<RanobeSimple>> call, Response<List<RanobeSimple>> response) {
                                                     if (response.body() != null) {
-                                                        if (searchText.matches("[A-z0-9]*")) {
-                                                            for (MangaSimple manga : response.body()) {
-                                                                findLists.add(manga.getName());
-                                                            }
-                                                        } else {
-                                                            if (searchText.matches("[А-яЁё0-9]*")) {
-                                                                for (MangaSimple manga : response.body()) {
-                                                                    findLists.add(manga.getRussian());
-                                                                }
+                                                        for (RanobeSimple ranobe : response.body()) {
+                                                            if (ranobe.getRussian() != null) {
+                                                                findLists.add(ranobe.getRussian());
+                                                            } else {
+                                                                findLists.add(ranobe.getName());
                                                             }
                                                         }
-                                                        searchListAdapter = new ArrayAdapter<>(activity, R.layout.items_view_layout, R.id.text1, findLists);
+                                                        searchListAdapter = new ArrayAdapter<>(activity, R.layout.search_list_item, R.id.search_list_text, findLists);
                                                         listView.setAdapter(searchListAdapter);
+                                                        progressBar.hide();
+                                                        listView.setVisibility(View.VISIBLE);
+                                                        if (findLists.isEmpty()) {
+                                                            notFoundText.setVisibility(View.VISIBLE);
+                                                        }
                                                     }
                                                 }
 
@@ -218,6 +256,7 @@ public class SearchDialog {
                 if (searchBox.getText().toString().equals("")) {
                     searchListAdapter = new ArrayAdapter<>(activity, R.layout.items_view_layout, R.id.text1, Collections.emptyList());
                     listView.setAdapter(searchListAdapter);
+                    progressBar.hide();
                 }
             }
         });
