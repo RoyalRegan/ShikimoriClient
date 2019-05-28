@@ -37,7 +37,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:showAsAction="never"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -52,14 +53,16 @@
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:layout_height="wrap_content"
+        android:id="@+id/menuButton"
         android:layout_width="wrap_content"
-        app:layout_anchor="@id/appbar"
-        app:layout_anchorGravity="bottom|right|end"
-        android:src="@drawable/video"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
+        android:onClick="showPopup"
+        android:src="@drawable/menu"
         app:fab_colorNormal="@color/colorAccent"
-        app:fab_colorPressed="@color/action"/>
+        app:fab_colorPressed="@color/action"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>
