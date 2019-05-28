@@ -20,13 +20,16 @@ import com.squareup.picasso.Picasso;
 
 public class RanobeOrMangaDetails extends Fragment {
     private TextView nameText;
+    private TextView rusNameText;
+    private TextView authorsText;
+    private TextView scoreText;
     private TextView typeText;
-    private TextView episodeCountText;
-    private TextView durationText;
+    private TextView tomsCountText;
+    private TextView chaptersCountText;
     private TextView statusText;
     private TextView genresText;
     private TextView desctiptionText;
-    private ImageView animeImage;
+    private ImageView mangaImage;
 
     private static Bundle instanceBundle = new Bundle();
 
@@ -55,14 +58,17 @@ public class RanobeOrMangaDetails extends Fragment {
     }
 
     private void initializeComp(View view) {
-        nameText = view.findViewById(R.id.mangaName);
+        nameText = view.findViewById(R.id.mangaNameOrig);
+        rusNameText = view.findViewById(R.id.manga_rus_name);
+        authorsText = view.findViewById(R.id.mangaAuthors);
+        scoreText = view.findViewById(R.id.mangaScore);
         typeText = view.findViewById(R.id.mangaType);
-        episodeCountText = view.findViewById(R.id.mangaTomsCount);
-        durationText = view.findViewById(R.id.mangaCharapters);
+        tomsCountText = view.findViewById(R.id.mangaTomsCount);
+        chaptersCountText = view.findViewById(R.id.mangaChapters);
         statusText = view.findViewById(R.id.mangaStatus);
         genresText = view.findViewById(R.id.mangaGenres);
         desctiptionText = view.findViewById(R.id.mangaDescription);
-        animeImage = view.findViewById(R.id.mangaImage);
+       // mangaImage = view.findViewById(R.id.mangaImage);
         setCompConfiguration();
         fillComp();
         setListeners();
@@ -76,8 +82,7 @@ public class RanobeOrMangaDetails extends Fragment {
     private void fillComp() {
         nameText.setText(manga.getName());
         typeText.setText(manga.getKind());
-        episodeCountText.setText(Integer.toString(manga.getVolumes()));
-        durationText.setText(Integer.toString(manga.getChapters()));
+        tomsCountText.setText(Integer.toString(manga.getVolumes()));
         statusText.setText(manga.getStatus().toString());
         StringBuilder genres = new StringBuilder();
         for (int i = 0; i < manga.getGenres().length; i++) {
@@ -86,7 +91,7 @@ public class RanobeOrMangaDetails extends Fragment {
         genres.deleteCharAt(manga.getGenres().length - 1);
         genresText.setText(genres.toString());
         desctiptionText.setText(manga.getDescription().replaceAll("\\[.+]", ""));
-        Picasso.get().load(Api.baseURL + manga.getImage().getOriginal()).into(animeImage);
+        //Picasso.get().load(Api.baseURL + manga.getImage().getOriginal()).into(animeImage);
     }
 
     private void setCompConfiguration() {
