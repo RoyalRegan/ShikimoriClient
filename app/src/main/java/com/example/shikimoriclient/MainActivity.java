@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.shikimoriclient.BackEnd.data.ExpandableListAnimeData;
 import com.example.shikimoriclient.BackEnd.data.ExpandableListMangaData;
 import com.example.shikimoriclient.BackEnd.data.ExpandableListRanobeData;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity
     private SearchFilter animeFilter;
     private SearchFilter mangaFilter;
     private SearchFilter ranobeFilter;
+    private PullRefreshLayout pullRefreshLayout;
 
     public static boolean loggedIn;
 
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity
         fabSearch = findViewById(R.id.fabSearch);
         fabBack = findViewById(R.id.fabBack);
         viewPager = findViewById(R.id.viewPager);
+        pullRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         searchDialog = new SearchDialog(this, viewPager);
@@ -268,6 +271,13 @@ public class MainActivity extends AppCompatActivity
             }
             fabMenu.collapse();
         });
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // start refresh
+            }
+        });
+        //pullRefreshLayout.setRefreshing(false);
     }
 
     private void showFABMenu() {
