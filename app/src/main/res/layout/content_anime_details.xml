@@ -67,10 +67,11 @@
                 <TextView
                     android:id="@+id/anime_rus_name"
                     android:layout_width="247dp"
-                    android:layout_height="22dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/exo_2_l"
+                    android:gravity="left"
                     android:text="Русское название"
                     android:textColor="@color/gray"
                     android:textSize="15sp"
@@ -316,37 +317,6 @@
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
-
-        <LinearLayout
-            style="@style/Widget.CardContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:isScrollContainer="true"
-                android:orientation="horizontal"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/Widget.CardContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:isScrollContainer="true"
-                android:orientation="horizontal"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 
