@@ -8,7 +8,7 @@
 
         <item
             android:id="@+id/name"
-            android:icon="@drawable/checklist"
+            android:icon="@drawable/user"
             android:title="@string/name" />
 
     </group>
