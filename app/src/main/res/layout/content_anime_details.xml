@@ -67,10 +67,11 @@
                 <TextView
                     android:id="@+id/anime_rus_name"
                     android:layout_width="247dp"
-                    android:layout_height="22dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/exo_2_l"
+                    android:gravity="left"
                     android:text="Русское название"
                     android:textColor="@color/gray"
                     android:textSize="15sp"

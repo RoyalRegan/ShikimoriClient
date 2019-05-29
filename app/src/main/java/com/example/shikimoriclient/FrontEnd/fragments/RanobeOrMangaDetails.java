@@ -60,7 +60,6 @@ public class RanobeOrMangaDetails extends Fragment {
     private void initializeComp(View view) {
         nameText = view.findViewById(R.id.mangaNameOrig);
         rusNameText = view.findViewById(R.id.manga_rus_name);
-        authorsText = view.findViewById(R.id.mangaAuthors);
         scoreText = view.findViewById(R.id.mangaScore);
         typeText = view.findViewById(R.id.mangaType);
         tomsCountText = view.findViewById(R.id.mangaTomsCount);
