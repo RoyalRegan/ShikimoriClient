@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi"
+        style="@style/AVLoadingIndicatorView"
+        android:layout_width="146dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="90dp"
+        android:visibility="gone"
+        app:indicatorColor="@color/action"
+        app:indicatorName="BallScaleMultipleIndicator" />
+
+    <TextView
+        android:id="@+id/notFoundText"
+        android:layout_width="205dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/swipeRefreshLayout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="103dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginBottom="435dp"
+        android:fontFamily="@font/exo_2_l"
+        android:gravity="center"
+        android:text="@string/not_found"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        android:visibility="invisible" />
+
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:refreshColor="@color/action">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.baoyz.widget.PullRefreshLayout>
+</RelativeLayout>
